@@ -6,7 +6,7 @@ all_from 'lib/Net/DBus/Skype/Lite.pm';
 license 'perl';
 
 requires(
-    'Net::DBus::Skype' => 0.02,
+    'Net::DBus' => '0.33.6',
 );
 
 tests 't/*.t';
