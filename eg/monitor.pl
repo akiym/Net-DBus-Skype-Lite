@@ -12,9 +12,11 @@ $skype->trigger(sub {
     my ($self, $res) = @_;
     debugf($res);
     if (my $msg = $res->chatmessage) {
-        my $dispname = $msg->from_dispname;
-        my $body = $msg->body;
-        infof("$dispname: $body");
+        if ($msg->status eq 'RECEIVED') {
+            my $dispname = $msg->from_dispname;
+            my $body = $msg->body;
+            infof("$dispname: $body");
+        }
     }
 });
 

@@ -26,6 +26,12 @@ sub chatmessage {
     $self;
 }
 
+sub status {
+    my ($self) = @_;
+
+    $self->{property} eq 'STATUS' ? $self->{value} : '';
+}
+
 sub from_dispname {
     my ($self, $id) = @_;
     $id //= $self->{id};
