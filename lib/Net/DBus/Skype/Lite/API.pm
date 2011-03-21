@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use parent qw/Net::DBus::Object/;
 use Net::DBus;
-use Log::Minimal;
+use Net::DBus::Skype::Lite::Context;
 
 sub new {
     my ($class) = @_;
@@ -23,17 +23,16 @@ sub new {
 }
 
 sub Notify {
-    my ($self, $command) = @_;
+    my ($self, $notification) = @_;
 
-    debugf("<- $command");
+    c->_trigger($notification);
     return 0;
 }
 
 sub Invoke {
-    my ($self, $command) = @_;
+    my ($self, $notification) = @_;
 
-    debugf("-> $command");
-    $self->{invoke}->Invoke($command);
+    $self->{invoke}->Invoke($notification);
 }
 
 1;
