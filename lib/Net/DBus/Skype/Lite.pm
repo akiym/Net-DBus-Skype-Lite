@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Net::DBus::Skype::Lite::API;
 use Net::DBus::Skype::Lite::Command;
+use Net::DBus::Skype::Lite::Util qw/parse_res/;
 use Log::Minimal;
 
 {
@@ -18,6 +19,7 @@ sub new {
     my $self = bless {
         api => $api,
         _trigger => sub {},
+        _received => sub {},
     }, $class;
     $class->set_context($self);
 
@@ -37,6 +39,7 @@ sub _trigger {
 
     my $res = $self->parse($notification);
     $self->{_trigger}->($self, $res);
+    $self->_message_received($res);
 }
 
 sub trigger {
@@ -46,6 +49,22 @@ sub trigger {
     $self->{_trigger} = $trigger;
 }
 
+sub _message_received {
+    my ($self, $res) = @_;
+
+    my $msg = $res->chatmessage;
+    return unless $msg;
+    if ($msg->status eq 'RECEIVED') {
+        return $self->{_received}->($self, $msg);
+    }
+}
+
+sub message_received {
+    my ($self, $trigger) = @_;
+
+    $self->{_received} = $trigger;
+}
+
 sub friends {
     my ($self) = @_;
 
@@ -53,7 +72,7 @@ sub friends {
     my $res = $self->api(qq{SEARCH FRIENDS});
 
     # <- USERS [user[, user]*]
-    my ($command, $user) = split /\s+/, $res, 2;
+    my ($command, $user) = parse_res($res, 2);
     return unless $command eq 'USERS';
 
     my @user = split ', ', $user;
@@ -68,7 +87,7 @@ sub recent_chats {
     my $res = $self->api(qq{SEARCH RECENTCHATS});
 
     # <- CHATS [<chatname>[, <chatname>]*]
-    my ($command, $chatname) = split /\s+/, $res, 2;
+    my ($command, $chatname) = parse_res($res, 2);
     return unless $command eq 'CHATS';
 
     my @chatname = split ', ', $chatname;
@@ -106,13 +125,29 @@ Net::DBus::Skype::Lite -
 
 =item C<< $skype->trigger() >>
 
-    use Log::Minimal;
+    $skype->trigger(sub {
+        my ($self, $res) = @_;
+        print $res;
+    });
+
+=item C<< $skype->message_received() >>
 
     my $skype = Net::DBus::Skype::Lite->new();
     $skype->trigger(sub {
         my ($self, $res) = @_;
-        debugf($res);
+        if (my $msg = $res->chatmessage) {
+            if ($msg->status eq 'RECEIVED') {
+                print $msg->body;
+            }
+        }
     });
+
+the same as this
+
+    $skype->message_received(
+        my ($self, $msg) = @_;
+        print $msg->body;
+    );
 
 =back
 
