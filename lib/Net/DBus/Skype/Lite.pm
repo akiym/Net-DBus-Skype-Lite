@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Net::DBus::Skype::Lite::API;
 use Net::DBus::Skype::Lite::Command;
-use Net::DBus::Skype::Lite::Util qw/parse_res/;
+use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
 use Log::Minimal;
 
 {
@@ -63,6 +63,19 @@ sub message_received {
     my ($self, $trigger) = @_;
 
     $self->{_received} = $trigger;
+}
+
+sub create_chat {
+    my ($self, $handle) = @_;
+
+    my $res = $self->api(qq{CHAT CREATE $handle});
+    cmd_object('Chat', $res);
+}
+
+sub send_message {
+    my ($self, $id, $message) = @_;
+
+    $self->api(qq{CHATMESSAGE $id $message});
 }
 
 sub friends {
@@ -148,6 +161,15 @@ the same as this
         my ($self, $msg) = @_;
         print $msg->body;
     );
+
+=item C<< $skype->create_chat() >>
+
+    $skype->create_chat('echo123');
+
+=item C<< $skype->send_message() >>
+
+    my $id = $skype->create_chat('echo123')->name;
+    $skype->send_message($id, 'hello');
 
 =back
 
