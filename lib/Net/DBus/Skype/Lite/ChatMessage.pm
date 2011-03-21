@@ -40,6 +40,14 @@ sub from_dispname {
     my $dispname = (parse_res($res))[3];
 }
 
+sub chatname {
+    my ($self, $id) = @_;
+    $id //= $self->{id};
+
+    my $res = c->api(qq{GET CHATMESSAGE $id CHATNAME});
+    my $body = (parse_res($res))[3];
+}
+
 sub body {
     my ($self, $id) = @_;
     $id //= $self->{id};
