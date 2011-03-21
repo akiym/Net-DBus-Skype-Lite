@@ -4,16 +4,15 @@ use warnings;
 use feature qw/switch/;
 use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::ChatMessage;
-use Log::Minimal;
+use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
 
 sub parse {
     my ($class, $res) = @_;
 
-    my ($command, $id, $property, $value) = split /\s+/, $res, 4;
+    my ($command, $id, $property, $value) = parse_res($res);
     given ($command) {
         when ('CHATMESSAGE') {
-            # TODO command('ChatMessage', $res);
-            return Net::DBus::Skype::Lite::ChatMessage->new($res);
+            return cmd_object('ChatMessage', $res);
         }
         default {
             return $class;

@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use overload qw/""/ => sub { shift->{res} };
 use Net::DBus::Skype::Lite::Context;
+use Net::DBus::Skype::Lite::Util qw/parse_res/;
 use Log::Minimal;
 
 sub new {
@@ -16,7 +17,7 @@ sub new {
 sub chatmessage {
     my ($self) = @_;
 
-    my @res = $self->parse($self->{res});
+    my @res = parse_res($self->{res});
     $self->{command} = $res[0];
     $self->{id} = $res[1];
     $self->{property} = $res[2];
@@ -25,18 +26,12 @@ sub chatmessage {
     $self;
 }
 
-sub parse {
-    my ($self, $res) = @_;
-
-    my @res = split /\s+/, $res, 4;
-}
-
 sub from_dispname {
     my ($self, $id) = @_;
     $id //= $self->{id};
 
     my $res = c->api(qq{GET CHATMESSAGE $id FROM_DISPNAME});
-    my $dispname = ($self->parse($res))[3];
+    my $dispname = (parse_res($res))[3];
 }
 
 sub body {
@@ -44,7 +39,7 @@ sub body {
     $id //= $self->{id};
 
     my $res = c->api(qq{GET CHATMESSAGE $id BODY});
-    my $body = ($self->parse($res))[3];
+    my $body = (parse_res($res))[3];
 }
 
 1;
