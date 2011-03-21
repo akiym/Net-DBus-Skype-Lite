@@ -34,7 +34,7 @@ Linuxで使えるSkype API wrapper
             my $info = get_info($video_id);
             return unless $info;
             my $thumb = $info->{thumb};
-            $self->api("CHATMESSAGE @{[$msg->chatname]} $thumb->{title}\n$thumb->{description}");
+            $msg->chatname->send_message("$thumb->{title}\n$thumb->{description}");
         }
     });
 
