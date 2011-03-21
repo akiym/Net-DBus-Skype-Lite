@@ -7,4 +7,3 @@ our @EXPORT = qw/c/;
 *c = *Net::DBus::Skype::Lite::context;
 
 1;
-
