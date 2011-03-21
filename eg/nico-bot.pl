@@ -30,7 +30,13 @@ $skype->message_received(sub {
         my $info = get_info($video_id);
         return unless $info;
         my $thumb = $info->{thumb};
-        $self->api("CHATMESSAGE @{[$msg->chatname]} $thumb->{title}\n$thumb->{description}");
+        my $message = "$thumb->{title}\n$thumb->{description}";
+        if ($msg->body =~ /@俺/) {
+            my $id = $self->create_chat($msg->from_handle)->name;
+            $self->send_message($id, $message);
+        } else {
+            $msg->chatname->send_message($message);
+        }
     }
 });
 
