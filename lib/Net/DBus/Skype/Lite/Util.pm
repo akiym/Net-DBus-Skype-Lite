@@ -5,9 +5,10 @@ use parent qw/Exporter/;
 our @EXPORT_OK = qw/parse_res cmd_object/;
 
 sub parse_res {
-    my ($res) = @_;
+    my ($res, $limit) = @_;
+    $limit //= 4;
 
-    my @res = split /\s+/, $res, 4;
+    my @res = split /\s+/, $res, $limit;
 }
 
 sub cmd_object {
