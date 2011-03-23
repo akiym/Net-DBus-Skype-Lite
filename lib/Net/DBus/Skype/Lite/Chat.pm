@@ -39,7 +39,6 @@ sub get_chat {
     my ($self, $id, $property) = @_;
 
     my $res = c->api(qq{GET CHAT $id $property});
-    # TODO ERROR 105 Invalid chat name
     (parse_res($res))[3];
 }
 
@@ -56,6 +55,8 @@ __END__
 =head1 NAME
 
 Net::DBus::Skype::Lite::Chat
+
+=head1 SYNOPSIS
 
 =head1 METHODS
 

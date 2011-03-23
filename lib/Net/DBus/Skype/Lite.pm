@@ -19,7 +19,6 @@ sub new {
     my $self = bless {
         api => $api,
         _trigger => sub {},
-        _received => sub {},
     }, $class;
     $class->set_context($self);
 
@@ -39,7 +38,6 @@ sub _trigger {
 
     my $res = $self->parse($notification);
     $self->{_trigger}->($self, $res);
-    $self->_message_received($res);
 }
 
 sub trigger {
@@ -49,25 +47,23 @@ sub trigger {
     $self->{_trigger} = $trigger;
 }
 
-sub _message_received {
-    my ($self, $res) = @_;
+sub call_inprogress {
+    my ($self, $hook) = @_;
 
-    my $msg = $res->chatmessage;
-    return unless $msg;
-    if ($msg->status eq 'RECEIVED') {
-        return $self->{_received}->($self, $msg);
-    }
+    *_call_inprogress = $hook;
 }
 
 sub message_received {
-    my ($self, $trigger) = @_;
+    my ($self, $hook) = @_;
 
-    $self->{_received} = $trigger;
+    no warnings 'redefine';
+    *_message_received = $hook;
 }
 
 sub create_chat {
-    my ($self, $handle) = @_;
+    my ($self, @handle) = @_;
 
+    my $handle = join ', ', @handle;
     my $res = $self->api(qq{CHAT CREATE $handle});
     cmd_object('Chat', $res);
 }
@@ -140,12 +136,36 @@ Net::DBus::Skype::Lite -
 
     $skype->trigger(sub {
         my ($self, $res) = @_;
-        print $res;
+        # run
+    });
+
+=item C<< $skype->call_inprogress() >>
+
+    skype->call_inprogress(sub {
+        my ($self, $call) = @_;
+        # run
+    });
+
+the same as this
+
+    $skype->trigger(sub {
+        my ($self, $res) = @_;
+        if (my $call = $res->call) {
+            if ($call->status eq 'INPROGRESS') {
+                # run
+            }
+        }
     });
 
 =item C<< $skype->message_received() >>
 
-    my $skype = Net::DBus::Skype::Lite->new();
+    $skype->message_received(sub {
+        my ($self, $msg) = @_;
+        print $msg->body;
+    });
+
+the same as this
+
     $skype->trigger(sub {
         my ($self, $res) = @_;
         if (my $msg = $res->chatmessage) {
@@ -154,13 +174,6 @@ Net::DBus::Skype::Lite -
             }
         }
     });
-
-the same as this
-
-    $skype->message_received(
-        my ($self, $msg) = @_;
-        print $msg->body;
-    );
 
 =item C<< $skype->create_chat() >>
 

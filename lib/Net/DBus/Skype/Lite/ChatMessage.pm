@@ -2,8 +2,8 @@ package Net::DBus::Skype::Lite::ChatMessage;
 use strict;
 use warnings;
 use overload qw/""/ => sub { shift->{res} };
-use Net::DBus::Skype::Lite::Chat;
 use Net::DBus::Skype::Lite::Context;
+use Net::DBus::Skype::Lite::Chat;
 use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
 use Time::Piece;
 
