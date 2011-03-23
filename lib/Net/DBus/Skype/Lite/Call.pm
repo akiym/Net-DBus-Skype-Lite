@@ -1,9 +1,8 @@
 package Net::DBus::Skype::Lite::Call;
 use strict;
 use warnings;
-use overload qw/""/ => sub { shift->{res} };
 use Net::DBus::Skype::Lite::Context;
-use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
+use Net::DBus::Skype::Lite::Util qw/parse_res/;
 
 sub new {
     my ($class, $id) = @_;

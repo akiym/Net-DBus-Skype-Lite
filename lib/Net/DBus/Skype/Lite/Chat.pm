@@ -1,7 +1,6 @@
 package Net::DBus::Skype::Lite::Chat;
 use strict;
 use warnings;
-use overload qq/""/ => sub { shift->chat->name };
 use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Util qw/parse_res/;
 
