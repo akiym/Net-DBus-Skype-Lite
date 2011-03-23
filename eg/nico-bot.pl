@@ -19,9 +19,9 @@ sub get_info {
 
 my $skype = Net::DBus::Skype::Lite->new();
 $skype->trigger(sub {
-    my ($self, $res) = @_;
+    my ($self, $res, $notify) = @_;
     if ($res->chatmessage) {
-        debugf($res);
+        debugf($notify);
     }
 });
 $skype->message_received(sub {

@@ -9,8 +9,8 @@ use Log::Minimal;
 
 my $skype = Net::DBus::Skype::Lite->new;
 $skype->trigger(sub {
-    my ($self, $res) = @_;
-    debugf($res);
+    my ($self, $res, $notify) = @_;
+    debugf($notify);
     if (my $msg = $res->chatmessage) {
         if ($msg->status eq 'RECEIVED') {
             my $dispname = $msg->from_dispname;

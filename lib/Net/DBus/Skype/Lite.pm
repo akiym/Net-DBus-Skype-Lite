@@ -4,7 +4,6 @@ use warnings;
 use Net::DBus::Skype::Lite::API;
 use Net::DBus::Skype::Lite::Command;
 use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
-use Log::Minimal;
 
 {
     our $CONTEXT;
@@ -21,24 +20,16 @@ sub new {
         _trigger => sub {},
     }, $class;
     $class->set_context($self);
-
     $self;
 }
 
 sub api { shift->{api}->Invoke(@_) }
 
-sub _trigger {
-    my ($self, $notification) = @_;
-
-    my $res = Net::DBus::Skype::Lite::Command->parse($notification);
-    $self->{_trigger}->($self, $res);
-}
-
 sub trigger {
-    my ($self, $trigger) = @_;
+    my ($self, $hook) = @_;
 
-    debugf('set $self->{_trigger}');
-    $self->{_trigger} = $trigger;
+    no warnings 'redefine';
+    *_trigger = $hook;
 }
 
 sub call_inprogress {
@@ -75,12 +66,10 @@ sub recent_chats {
 
     my $res = $self->api(qq{SEARCH RECENTCHATS});
     my ($command, $chatname) = parse_res($res, 2);
-
     my @chatname = split ', ', $chatname;
     for my $id (@chatname) {
         $id = cmd_object('Chat', $id);
     }
-
     @chatname;
 }
 
@@ -88,7 +77,6 @@ sub recent_chat {
     my ($self) = @_;
 
     my @chatname = $self->recent_chats();
-
     $chatname[0];
 }
 

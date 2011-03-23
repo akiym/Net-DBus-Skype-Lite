@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use parent qw/Net::DBus::Object/;
 use Net::DBus;
-use Net::DBus::Skype::Lite::Context;
+use Net::DBus::Skype::Lite::Command;
 
 sub new {
     my ($class) = @_;
@@ -25,7 +25,7 @@ sub new {
 sub Notify {
     my ($self, $notification) = @_;
 
-    c->_trigger($notification);
+    Net::DBus::Skype::Lite::Command->parse($notification);
     return 0;
 }
 
