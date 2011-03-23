@@ -31,11 +31,11 @@ $skype->message_received(sub {
         return unless $info;
         my $thumb = $info->{thumb};
         my $message = "$thumb->{title}\n$thumb->{description}";
+        infof($msg->from_dispname . ': ' . $msg->body);
         if ($msg->body =~ /@俺/) {
-            my $id = $self->create_chat($msg->from_handle)->name;
-            $self->send_message($id, $message);
+            $self->create_chat($msg->from_handle)->send_message($message);
         } else {
-            $msg->chatname->send_message($message);
+            $self->send_message($msg->chatname, $message);
         }
     }
 });

@@ -6,37 +6,30 @@ use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
 
 sub new {
-    my ($class, $res) = @_;
+    my ($class, $id) = @_;
 
     bless {
-        res => $res,
+        id => $id,
     }, $class;
 }
 
-sub call {
-    my ($self) = @_;
-
-    my @res = parse_res($self->{res});
-    $self->{command} = $res[0];
-    $self->{id} = $res[1];
-    $self->{property} = $res[2];
-    $self->{value} = $res[3];
-
-    $self;
-}
+sub call { shift }
 
 sub get_call {
-    my ($self, $id, $property) = @_;
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET CALL $id $property});
     (parse_res($res))[3];
 }
 
 sub status {
     my ($self, $id) = @_;
-    $id //= $self->{id};
+    if ($id) {
+        $self->{id} = $id;
+    }
 
-    my $status = $self->get_call($id, 'STATUS');
+    my $status = $self->get_call('STATUS');
 }
 
 1;

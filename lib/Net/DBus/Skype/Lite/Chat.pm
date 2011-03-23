@@ -6,27 +6,14 @@ use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Util qw/parse_res/;
 
 sub new {
-    my ($class, $res) = @_;
+    my ($class, $id) = @_;
 
-    my $self = bless {
-        res => $res,
+    bless {
+        id => $id,
     }, $class;
-    $self->chat();
-
-    $self;
 }
 
-sub chat {
-    my ($self) = @_;
-
-    my @res = parse_res($self->{res});
-    $self->{command} = $res[0];
-    $self->{id} = $res[1];
-    $self->{property} = $res[2];
-    $self->{value} = $res[3];
-
-    $self;
-}
+sub chat { shift }
 
 sub send_message {
     my ($self, $message) = @_;
@@ -36,17 +23,20 @@ sub send_message {
 }
 
 sub get_chat {
-    my ($self, $id, $property) = @_;
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET CHAT $id $property});
     (parse_res($res))[3];
 }
 
 sub name {
     my ($self, $id) = @_;
-    $id //= $self->{id};
+    if ($id) {
+        $self->{id} = $id;
+    }
 
-    my $chatname = $self->get_chat($id, 'NAME');
+    my $chatname = $self->get_chat('NAME');
 }
 
 1;

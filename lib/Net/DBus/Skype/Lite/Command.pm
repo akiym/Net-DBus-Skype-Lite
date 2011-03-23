@@ -13,7 +13,7 @@ sub parse {
     my ($command, $id, $property, $value) = parse_res($res);
     given ($command) {
         when ('CALL') {
-            my $cmd = cmd_object('Call', $res);
+            my $cmd = cmd_object('Call', $id);
             my $call = $cmd->call;
             if ($call->status eq 'INPROGRESS') {
                 return c->_call_inprogress($call);
@@ -21,12 +21,12 @@ sub parse {
             return $call;
         }
         when ('CHATMESSAGE') {
-            my $cmd = cmd_object('ChatMessage', $res);
-            my $msg = $cmd->chatmessage;
-            if ($msg->status eq 'RECEIVED') {
-                return c->_message_received($msg);
+            my $cmd = cmd_object('ChatMessage', $id);
+            my $chatmessage = $cmd->chatmessage;
+            if ($chatmessage->status eq 'RECEIVED') {
+                return c->_message_received($chatmessage);
             }
-            return $msg;
+            return $chatmessage;
         }
         default {
             return $class;
