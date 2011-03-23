@@ -27,16 +27,10 @@ sub new {
 
 sub api { shift->{api}->Invoke(@_) }
 
-sub parse {
-    my ($self, $notification) = @_;
-
-    return Net::DBus::Skype::Lite::Command->parse($notification);
-}
-
 sub _trigger {
     my ($self, $notification) = @_;
 
-    my $res = $self->parse($notification);
+    my $res = Net::DBus::Skype::Lite::Command->parse($notification);
     $self->{_trigger}->($self, $res);
 }
 
@@ -50,6 +44,7 @@ sub trigger {
 sub call_inprogress {
     my ($self, $hook) = @_;
 
+    no warnings 'redefine';
     *_call_inprogress = $hook;
 }
 
@@ -65,7 +60,8 @@ sub create_chat {
 
     my $handle = join ', ', @handle;
     my $res = $self->api(qq{CHAT CREATE $handle});
-    cmd_object('Chat', $res);
+    my $id = (parse_res($res))[1];
+    cmd_object('Chat', $id);
 }
 
 sub send_message {
@@ -74,32 +70,16 @@ sub send_message {
     $self->api(qq{CHATMESSAGE $id $message});
 }
 
-sub friends {
-    my ($self) = @_;
-
-    # -> SEARCH FRINDS
-    my $res = $self->api(qq{SEARCH FRIENDS});
-
-    # <- USERS [user[, user]*]
-    my ($command, $user) = parse_res($res, 2);
-    return unless $command eq 'USERS';
-
-    my @user = split ', ', $user;
-
-    @user;
-}
-
 sub recent_chats {
     my ($self) = @_;
 
-    # -> SEARCH RECENTCHATS
     my $res = $self->api(qq{SEARCH RECENTCHATS});
-
-    # <- CHATS [<chatname>[, <chatname>]*]
     my ($command, $chatname) = parse_res($res, 2);
-    return unless $command eq 'CHATS';
 
     my @chatname = split ', ', $chatname;
+    for my $id (@chatname) {
+        $id = cmd_object('Chat', $id);
+    }
 
     @chatname;
 }
@@ -124,7 +104,7 @@ Net::DBus::Skype::Lite -
     use Net::DBus::Skype::Lite;
 
     my $skype = Net::DBus::Skype::Lite->new();
-    for (@{$skype->recent_chat}) {
+    for ($skype->recent_chat) {
         $_->send_message(':)');
     }
 
@@ -183,6 +163,20 @@ the same as this
 
     my $id = $skype->create_chat('echo123')->name;
     $skype->send_message($id, 'hello');
+
+=item C<< $skype->recent_chats() >>
+
+    for ($skype->recent_chats) {
+        $_->send_message('hello');
+    }
+
+=item C<< $skype->recent_chat() >>
+
+    $skype->recent_chat->send_message('hello');
+
+the same as this
+
+    ($skype->recent_chats)[0]->send_message('hello');
 
 =back
 
