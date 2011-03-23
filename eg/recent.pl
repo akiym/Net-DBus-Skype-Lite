@@ -9,6 +9,6 @@ use Log::Minimal;
 
 my $skype = Net::DBus::Skype::Lite->new();
 $skype->recent_chat->send_message(':)');
-for ($skype->recent_chats) {
-    infof($_->members);
+for my $chat ($skype->recent_chats) {
+    infof($chat->members);
 }
