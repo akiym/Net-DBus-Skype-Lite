@@ -18,231 +18,165 @@ sub send_message {
     my ($self, $message) = @_;
 
     my $id = $self->{id};
-    my $res = c->api(qq{CHATMESSAGE $id $message});
+    c->api(qq{CHATMESSAGE $id $message});
 }
 
 sub get_chat {
-    my ($self, $property) = @_;
+    my ($self, $id, $property) = @_;
+    $id ||= $self->{id};
 
-    my $id = $self->{id};
     my $res = c->api(qq{GET CHAT $id $property});
     (parse_res($res))[3];
 }
 
 sub name {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('NAME');
+    $self->get_chat($id, 'NAME');
 }
 
 sub timestamp {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('TIMESTAMP');
+    $self->get_chat($id, 'TIMESTAMP');
 }
 
 sub adder {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('ADDER');
+    $self->get_chat($id, 'ADDER');
 }
 
 sub status {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('STATUS');
+    $self->get_chat($id, 'STATUS');
 }
 
 sub posters {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('POSTERS');
+    $self->get_chat($id, 'POSTERS');
 }
 
 sub members {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('MEMBERS');
+    $self->get_chat($id, 'MEMBERS');
 }
 
 sub topic {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('TOPIC');
+    $self->get_chat($id, 'TOPIC');
 }
 
 sub topicxml {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('TOPICXML');
+    $self->get_chat($id, 'TOPICXML');
 }
 
 sub activemembers {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('ACTIVEMEMBERS');
+    $self->get_chat($id, 'ACTIVEMEMBERS');
 }
 
 sub friendlyname {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('FRIENDLYNAME');
+    $self->get_chat($id, 'FRIENDLYNAME');
 }
 
 sub chatmessages {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('CHATMESSAGES');
+    $self->get_chat($id, 'CHATMESSAGES');
 }
 
 sub recentchatmessages {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('RECENTCHATMESSAGES');
+    $self->get_chat($id, 'RECENTCHATMESSAGES');
 }
 
 sub bookmarked {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('BOOKMARKED');
+    $self->get_chat($id, 'BOOKMARKED');
+}
+
+sub memberobjects {
+    my ($self, $id) = @_;
+
+    $self->get_chat($id, 'MEMBEROBJECTS');
 }
 
 sub passwordhint {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('PASSWORDHINT');
+    $self->get_chat($id, 'PASSWORDHINT');
 }
 
 sub guidelines {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('GUIDELINES');
+    $self->get_chat($id, 'GUIDELINES');
 }
 
 sub options {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('OPTIONS');
+    $self->get_chat($id, 'OPTIONS');
 }
 
 sub description {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('DESCRIPTION');
+    $self->get_chat($id, 'DESCRIPTION');
 }
 
 sub dialog_partner {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('DIALOG_PARTNER');
+    $self->get_chat($id, 'DIALOG_PARTNER');
 }
 
 sub activity_timestamp {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('ACTIVITY_TIMESTAMP');
+    $self->get_chat($id, 'ACTIVITY_TIMESTAMP');
 }
 
 sub type {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('TYPE');
+    $self->get_chat($id, 'TYPE');
 }
 
 sub mystatus {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('MYSTATUS');
+    $self->get_chat($id, 'MYSTATUS');
 }
 
 sub myrole {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('MYROLE');
+    $self->get_chat($id, 'MYROLE');
 }
 
 sub blob {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('BLOB');
+    $self->get_chat($id, 'BLOB');
 }
 
 sub applicants {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    $self->get_chat('APPLICANTS');
+    $self->get_chat($id, 'APPLICANTS');
 }
 
 1;
@@ -262,7 +196,35 @@ Net::DBus::Skype::Lite::Chat
 
     $chat->send_message('hello');
 
+=item C<< $chat->[property] >>
+
+    $chat->name;
+
 =item name
+=item timestamp
+=item adder
+=item status
+=item poster
+=item members
+=item topic
+=item topicxml
+=item activemembers
+=item friendlyname
+=item chatmessages
+=item recentchatmessages
+=item bookmarked
+=item memberobjects
+=item passwordhint
+=item guidelines
+=item options
+=item description
+=item dialog_partner
+=item activety_timestamp
+=item type
+=item mystatus
+=item myrole
+=item blob
+=item applicants
 
 =back
 

@@ -4,7 +4,6 @@ use warnings;
 use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Chat;
 use Net::DBus::Skype::Lite::Util qw/parse_res/;
-use Time::Piece;
 
 sub new {
     my ($class, $id) = @_;
@@ -17,94 +16,101 @@ sub new {
 sub chatmessage { shift }
 
 sub get_chatmessage {
-    my ($self, $property) = @_;
+    my ($self, $id, $property) = @_;
+    $id ||= $self->{id};
 
-    my $id = $self->{id};
     my $res = c->api(qq{GET CHATMESSAGE $id $property});
     (parse_res($res))[3];
 }
 
 sub timestamp {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $timestamp = $self->get_chatmessage('TIMESTAMP');
-    Time::Piece->new($timestamp);
+    $self->get_chatmessage($id, 'TIMESTAMP');
 }
 
 sub from_handle {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $from_handle = $self->get_chatmessage('FROM_HANDLE');
+    $self->get_chatmessage($id, 'FROM_HANDLE');
 }
 
 sub from_dispname {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $form_dispname = $self->get_chatmessage('FROM_DISPNAME');
+    $self->get_chatmessage($id, 'FROM_DISPNAME');
+}
+
+sub type {
+    my ($self, $id) = @_;
+
+    $self->get_chatmessage($id, 'TYPE');
 }
 
 sub status {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $status = $self->get_chatmessage('STATUS');
+    $self->get_chatmessage($id, 'STATUS');
+}
+
+sub leavereason {
+    my ($self, $id) = @_;
+
+    $self->get_chatmessage($id, 'LEAVEREASON');
 }
 
 sub chatname {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $chatname = $self->get_chatmessage('CHATNAME');
+    $self->get_chatmessage($id, 'CHATNAME');
+}
+
+sub users {
+    my ($self, $id) = @_;
+
+    $self->get_chatmessage($id, 'USERS');
 }
 
 sub is_editable {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $is_editable = $self->get_chatmessage('IS_EDITABLE');
+    $self->get_chatmessage($id, 'IS_EDITABLE');
 }
 
 sub edited_by {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $edited_by = $self->get_chatmessage('EDITED_BY');
+    $self->get_chatmessage($id, 'EDITED_BY');
 }
 
 sub edited_timestamp {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $edited_timestamp = $self->get_chatmessage('EDITED_TIMESTAMP');
-    Time::Piece->new($edited_timestamp);
+    $self->get_chatmessage($id, 'EDITED_TIMESTAMP');
+}
+
+sub options {
+    my ($self, $id) = @_;
+
+    $self->get_chatmessage($id, 'OPTIONS');
+}
+
+sub role {
+    my ($self, $id) = @_;
+
+    $self->get_chatmessage($id, 'ROLE');
+}
+
+sub seen {
+    my ($self, $id) = @_;
+
+    $self->get_chatmessage($id, 'SEEN');
 }
 
 sub body {
     my ($self, $id) = @_;
-    if ($id) {
-        $self->{id} = $id;
-    }
 
-    my $body = $self->get_chatmessage('BODY');
+    $self->get_chatmessage($id, 'BODY');
 }
 
 1;
@@ -120,20 +126,24 @@ Net::DBus::Skype::Lite::ChatMessage
 
 =over 4
 
+=item C<< $chatmessage->[property] >>
+
+    $chatmessage->timestamp;
+
 =item timestamp
-
-Time::Piece object
-
 =item from_handle
 =item from_dispname
+=item type
 =item status
+=item leavereason
 =item chatname
+=item users
 =item is_editable
 =item edited_by
 =item edited_timestamp
-
-Time::Piece object
-
+=item options
+=item role
+=item seen
 =item body
 
 =back

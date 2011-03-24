@@ -14,8 +14,8 @@ sub new {
     my $self = $class->SUPER::new($notify, '/com/Skype/Client', 'com.Skype.API.Client');
     bless $self, $class;
 
-    $self->{invoke} = $bus->get_service('com.Skype.API')
-                          ->get_object('/com/Skype', 'com.Skype.API');
+    my $invoke = $bus->get_service('com.Skype.API');
+    $self->{invoke} = $invoke->get_object('/com/Skype', 'com.Skype.API');
     $self->Invoke('NAME Net::DBus::Skype::Lite');
     $self->Invoke('PROTOCOL 7');
 

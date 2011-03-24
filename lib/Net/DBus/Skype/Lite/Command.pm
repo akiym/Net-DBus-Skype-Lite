@@ -8,13 +8,13 @@ use Net::DBus::Skype::Lite::ChatMessage;
 use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
 
 sub parse {
-    my ($class, $res) = @_;
+    my ($class, $notification) = @_;
 
-    my ($command, $id, $property, $value) = parse_res($res);
+    my ($command, $id, $property, $value) = parse_res($notification);
     given ($command) {
         when ('CALL') {
             my $cmd = cmd_object('Call', $id);
-            c->_trigger($cmd, $res); # NO
+            c->_trigger($cmd, $notification); # NO
             my $call = $cmd->call;
             if ($call->status eq 'INPROGRESS') {
                 return c->_call_inprogress($call);
@@ -23,7 +23,7 @@ sub parse {
         }
         when ('CHATMESSAGE') {
             my $cmd = cmd_object('ChatMessage', $id);
-            c->_trigger($cmd, $res); # NO
+            c->_trigger($cmd, $notification); # NO
             my $chatmessage = $cmd->chatmessage;
             if ($chatmessage->status eq 'RECEIVED') {
                 return c->_message_received($chatmessage);
@@ -31,13 +31,10 @@ sub parse {
             return $cmd;
         }
         default {
-            c->_trigger($class, $res); # NO
+            c->_trigger($class, $notification); # NO
             return $class;
         }
     }
 }
-
-sub call {}
-sub chatmessage {}
 
 1;
