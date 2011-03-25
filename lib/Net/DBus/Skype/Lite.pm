@@ -15,7 +15,7 @@ sub new {
     my ($class, %args) = @_;
 
     my $self = bless {
-        application_name => 'Net::DBus::Skype::Lite',
+        name => 'Net::DBus::Skype::Lite',
         notify => $args{notify} || sub {},
         invoke => $args{invoke} || sub {},
         trigger => sub {},
