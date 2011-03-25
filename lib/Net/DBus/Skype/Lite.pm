@@ -17,6 +17,9 @@ sub new {
     my $self = bless {
         notify => $args{notify} || sub {},
         invoke => $args{invoke} || sub {},
+        trigger => sub {},
+        call_inprogress => sub {},
+        message_received => sub {},
     }, $class;
     $class->set_context($self);
     my $api = Net::DBus::Skype::Lite::API->new();
@@ -29,22 +32,19 @@ sub api { shift->{api}->Invoke(@_) }
 sub trigger {
     my ($self, $hook) = @_;
 
-    no warnings 'redefine';
-    *_trigger = $hook;
+    $self->{trigger} = $hook;
 }
 
 sub call_inprogress {
     my ($self, $hook) = @_;
 
-    no warnings 'redefine';
-    *_call_inprogress = $hook;
+    $self->{call_inprogress} = $hook;
 }
 
 sub message_received {
     my ($self, $hook) = @_;
 
-    no warnings 'redefine';
-    *_message_received = $hook;
+    $self->{message_received} = $hook;
 }
 
 sub create_chat {

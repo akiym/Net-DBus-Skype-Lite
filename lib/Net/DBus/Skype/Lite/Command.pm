@@ -23,24 +23,24 @@ sub parse {
     given ($command) {
         when ('CALL') {
             my $cmd = cmd_object('Call', $id);
-            c->_trigger($cmd, $notification); # NO
+            c->{trigger}->(c, $cmd, $notification);
             my $call = $cmd->call;
             if ($call->status eq 'INPROGRESS') {
-                return c->_call_inprogress($call);
+                return c->{call_inprogress}->(c, $call);
             }
             return $cmd;
         }
         when ('CHATMESSAGE') {
             my $cmd = cmd_object('ChatMessage', $id);
-            c->_trigger($cmd, $notification); # NO
+            c->{trigger}->(c, $cmd, $notification);
             my $chatmessage = $cmd->chatmessage;
             if ($chatmessage->status eq 'RECEIVED') {
-                return c->_message_received($chatmessage);
+                return c->{message_received}->(c, $chatmessage);
             }
             return $cmd;
         }
         default {
-            c->_trigger($class, $notification); # NO
+            c->{trigger}->(c, $class, $notification);
             return $class;
         }
     }
