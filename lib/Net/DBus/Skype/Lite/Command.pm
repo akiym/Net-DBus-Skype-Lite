@@ -21,6 +21,11 @@ sub parse {
 
     my ($command, $id, $property, $value) = parse_res($notification);
     given ($command) {
+        when ('USER') {
+            my $cmd = cmd_object('User', $id);
+            c->{trigger}->(c, $cmd, $notification);
+            return $cmd;
+        }
         when ('CALL') {
             my $cmd = cmd_object('Call', $id);
             c->{trigger}->(c, $cmd, $notification);

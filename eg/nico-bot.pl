@@ -14,23 +14,34 @@ sub get_info {
     my ($video_id) = @_;
     my $res = $ua->get("http://ext.nicovideo.jp/api/getthumbinfo/$video_id");
     my $info = XMLin($res->decoded_content);
-    $info->{status} eq 'ok' ? $info : '';
+    return unless $info->{status} eq 'ok';
+    my $thumb = $info->{thumb};
+    my $message = "$thumb->{title}\n$thumb->{description}";
 }
 
-my $skype = Net::DBus::Skype::Lite->new();
-$skype->trigger(sub {
-    my ($self, $res, $notify) = @_;
-    if ($res->chatmessage) {
+my $skype = Net::DBus::Skype::Lite->new(
+    notify => sub {
+        my ($self, $notify) = @_;
         debugf($notify);
+    }
+);
+$skype->trigger(sub {
+    my ($self, $res) = @_;
+    if (my $user = $res->user) {
+        if (my ($video_id) = $user->mood_text =~ /([sn]m\d+)/) {
+            my $message = get_info($video_id);
+            return unless $message;
+            infof($user->handle . ': ' . $user->mood_text);
+            debugf($user->handle);
+            $self->create_chat($user->handle)->send_message($message);
+        }
     }
 });
 $skype->message_received(sub {
     my ($self, $msg) = @_;
     if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
-        my $info = get_info($video_id);
-        return unless $info;
-        my $thumb = $info->{thumb};
-        my $message = "$thumb->{title}\n$thumb->{description}";
+        my $message = get_info($video_id);
+        return unless $message;
         infof($msg->from_dispname . ': ' . $msg->body);
         if ($msg->body =~ /@俺/) {
             $self->create_chat($msg->from_handle)->send_message($message);
