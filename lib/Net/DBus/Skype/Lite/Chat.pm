@@ -114,7 +114,7 @@ sub memberobjects {
     for my $member (@members) {
         $member = cmd_object('ChatMember', $member);
     }
-    @members;
+    \@members;
 }
 
 sub passwordhint {

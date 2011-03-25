@@ -70,7 +70,7 @@ sub friends {
     for my $id (@friend) {
         $id = cmd_object('User', $id);
     }
-    @friend;
+    \@friend;
 }
 
 sub recent_chats {
@@ -82,7 +82,7 @@ sub recent_chats {
     for my $id (@chatname) {
         $id = cmd_object('Chat', $id);
     }
-    @chatname;
+    \@chatname;
 }
 
 sub recent_chat {
@@ -102,7 +102,7 @@ sub groups {
         # when module is loaded?
         $id = cmd_object('Group', $id);
     }
-    @group;
+    \@group;
 }
 
 1;
