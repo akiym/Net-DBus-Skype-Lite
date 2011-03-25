@@ -15,6 +15,7 @@ sub new {
     my ($class, %args) = @_;
 
     my $self = bless {
+        application_name => 'Net::DBus::Skype::Lite',
         notify => $args{notify} || sub {},
         invoke => $args{invoke} || sub {},
         trigger => sub {},
@@ -127,6 +128,10 @@ Net::DBus::Skype::Lite -
 =over 4
 
 =item C<< Net::DBus::Skype::Lite->new() >>
+
+=item name
+
+    Net::DBus::Skype::Lite->new(name => 'MyApp');
 
 =item notify
 

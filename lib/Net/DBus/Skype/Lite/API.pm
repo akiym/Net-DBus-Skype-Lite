@@ -17,9 +17,10 @@ sub new {
 
     my $invoke = $bus->get_service('com.Skype.API');
     $self->{invoke} = $invoke->get_object('/com/Skype', 'com.Skype.API');
-    $self->Invoke('NAME Net::DBus::Skype::Lite');
-    $self->Invoke('PROTOCOL 7');
 
+    my $application_name = c->{name};
+    $self->Invoke(q{NAME $application_name});
+    $self->Invoke(q{PROTOCOL 7});
     $self;
 }
 
