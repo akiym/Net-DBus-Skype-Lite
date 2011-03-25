@@ -80,6 +80,19 @@ sub recent_chat {
     $chatname[0];
 }
 
+sub groups {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH GROUPS});
+    my ($command, $group) = parse_res($res, 2);
+    my @group = split ', ', $group;
+    for my $id (@group) {
+        # when module is loaded?
+        $id = cmd_object('Group', $id);
+    }
+    @group;
+}
+
 1;
 __END__
 
@@ -165,6 +178,12 @@ the same as this
 the same as this
 
     ($skype->recent_chats)[0]->send_message('hello');
+
+=item C<< $skype->groups() >>
+
+    for ($skype->groups) {
+        print $_->displayname;
+    }
 
 =back
 
