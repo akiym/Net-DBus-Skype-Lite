@@ -3,8 +3,17 @@ use strict;
 use warnings;
 use feature qw/switch/;
 use Net::DBus::Skype::Lite::Context;
+use Net::DBus::Skype::Lite::User;
+use Net::DBus::Skype::Lite::Profile;
 use Net::DBus::Skype::Lite::Call;
+use Net::DBus::Skype::Lite::Chat;
+use Net::DBus::Skype::Lite::ChatMember;
 use Net::DBus::Skype::Lite::ChatMessage;
+use Net::DBus::Skype::Lite::VoiceMail;
+use Net::DBus::Skype::Lite::SMS;
+#use Net::DBus::Skype::Lite::Application;
+use Net::DBus::Skype::Lite::Group;
+use Net::DBus::Skype::Lite::FileTransfer;
 use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
 
 sub parse {
