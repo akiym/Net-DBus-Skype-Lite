@@ -2,7 +2,7 @@ package Net::DBus::Skype::Lite::Chat;
 use strict;
 use warnings;
 use Net::DBus::Skype::Lite::Context;
-use Net::DBus::Skype::Lite::Util qw/parse_res/;
+use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
 
 sub new {
     my ($class, $id) = @_;
@@ -110,7 +110,11 @@ sub bookmarked {
 sub memberobjects {
     my ($self, $id) = @_;
 
-    $self->get_chat($id, 'MEMBEROBJECTS');
+    my @members = $self->get_chat($id, 'MEMBEROBJECTS');
+    for my $member (@members) {
+        $member = cmd_object('ChatMember', $member);
+    }
+    @members;
 }
 
 sub passwordhint {
