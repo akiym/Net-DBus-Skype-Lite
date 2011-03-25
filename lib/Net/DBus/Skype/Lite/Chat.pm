@@ -104,7 +104,8 @@ sub recentchatmessages {
 sub bookmarked {
     my ($self, $id) = @_;
 
-    $self->get_chat($id, 'BOOKMARKED');
+    my $res = $self->get_chat($id, 'BOOKMARKED');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub memberobjects {

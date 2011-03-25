@@ -109,13 +109,15 @@ sub hascallequipment {
 sub is_video_capable {
     my ($self, $id) = @_;
 
-    $self->get_user($id, 'IS_VIDEO_CAPABLE');
+    my $res = $self->get_user($id, 'IS_VIDEO_CAPABLE');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub is_voicemail_capable {
     my ($self, $id) = @_;
 
-    $self->get_user($id, 'IS_VOICEMAIL_CAPABLE');
+    my $res = $self->get_user($id, 'IS_VOICEMAIL_CAPABLE');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub buddystatus {
@@ -127,13 +129,15 @@ sub buddystatus {
 sub isauthorized {
     my ($self, $id) = @_;
 
-    $self->get_user($id, 'ISAUTHORIZED');
+    my $res = $self->get_user($id, 'ISAUTHORIZED');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub isblocked {
     my ($self, $id) = @_;
 
-    $self->get_user($id, 'ISBLOCKED');
+    my $res = $self->get_user($id, 'ISBLOCKED');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub onlinestatus {
@@ -163,7 +167,8 @@ sub lastonlinetimestamp {
 sub cam_leave_vm {
     my ($self, $id) = @_;
 
-    $self->get_user($id, 'CAM_LEAVE_VM');
+    my $res = $self->get_user($id, 'CAM_LEAVE_VM');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub speeddial {
@@ -206,6 +211,7 @@ sub is_cf_active {
     my ($self, $id) = @_;
 
     $self->get_user($id, 'IS_CF_ACTIVE');
+    $res eq 'TRUE' ? 1 : 0
 }
 
 sub nrof_authed_buddies {

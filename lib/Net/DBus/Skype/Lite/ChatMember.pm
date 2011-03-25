@@ -43,7 +43,8 @@ sub role {
 sub is_active {
     my ($self, $id) = @_;
 
-    $self->get_chatmember($id, 'IS_ACTIVE');
+    my $res = $self->get_chatmember($id, 'IS_ACTIVE');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 1;

@@ -49,7 +49,8 @@ sub failurereason {
 sub is_failed_unseen {
     my ($self, $id) = @_;
 
-    $self->get_sms($id, 'IS_FAILED_UNSEEN');
+    my $res = $self->get_sms($id, 'IS_FAILED_UNSEEN');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub timestamp {

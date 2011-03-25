@@ -74,7 +74,8 @@ sub users {
 sub is_editable {
     my ($self, $id) = @_;
 
-    $self->get_chatmessage($id, 'IS_EDITABLE');
+    my $res = $self->get_chatmessage($id, 'IS_EDITABLE');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub edited_by {

@@ -169,7 +169,8 @@ sub capture_mic {
 sub vaa_input_status {
     my ($self, $id) = @_;
 
-    $self->get_call($id, 'VAA_INPUT_STATUS');
+    my $res = $self->get_call($id, 'VAA_INPUT_STATUS');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub forwarded_by {
