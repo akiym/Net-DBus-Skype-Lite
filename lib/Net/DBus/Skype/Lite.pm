@@ -61,6 +61,18 @@ sub send_message {
     $self->api(qq{CHATMESSAGE $id $message});
 }
 
+sub friends {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH FRIENDS});
+    my ($command, $friend) = parse_res($res, 2);
+    my @friend = split ', ', $friend;
+    for my $id (@friend) {
+        $id = cmd_object('User', $id);
+    }
+    @friend;
+}
+
 sub recent_chats {
     my ($self) = @_;
 
