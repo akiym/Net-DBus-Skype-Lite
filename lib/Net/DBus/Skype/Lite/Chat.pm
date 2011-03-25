@@ -62,7 +62,9 @@ sub posters {
 sub members {
     my ($self, $id) = @_;
 
-    $self->get_chat($id, 'MEMBERS');
+    my $res = $self->get_chat($id, 'MEMBERS');
+    my @members = split ' ', $res;
+    \@members;
 }
 
 sub topic {
@@ -98,7 +100,12 @@ sub chatmessages {
 sub recentchatmessages {
     my ($self, $id) = @_;
 
-    $self->get_chat($id, 'RECENTCHATMESSAGES');
+    my $res = $self->get_chat($id, 'RECENTCHATMESSAGES');
+    my @messages = split ', ', $res;
+    for my $id (@messages) {
+        $id = cmd_object('ChatMessage', $id);
+    }
+    \@messages;
 }
 
 sub bookmarked {
