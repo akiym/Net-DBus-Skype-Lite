@@ -7,10 +7,18 @@ use Net::DBus::Skype::Lite;
 use Net::DBus::Reactor;
 use Log::Minimal;
 
-my $skype = Net::DBus::Skype::Lite->new;
+my $skype = Net::DBus::Skype::Lite->new(
+    notify => sub {
+        my ($self, $notify) = @_;
+        debugf("NOTIFY: $notify");
+    },
+    invoke => sub {
+        my ($self, $notify) = @_;
+        debugf("INVOKE: $notify");
+    },
+);
 $skype->trigger(sub {
-    my ($self, $res, $notify) = @_;
-    debugf($notify);
+    my ($self, $res) = @_;
     if (my $msg = $res->chatmessage) {
         if ($msg->status eq 'RECEIVED') {
             my $dispname = $msg->from_dispname;

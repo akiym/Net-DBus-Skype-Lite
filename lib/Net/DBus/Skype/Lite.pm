@@ -12,14 +12,15 @@ use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
 }
 
 sub new {
-    my ($class) = @_;
+    my ($class, %args) = @_;
 
-    my $api = Net::DBus::Skype::Lite::API->new();
     my $self = bless {
-        api => $api,
-        _trigger => sub {},
+        notify => $args{notify} || sub {},
+        invoke => $args{invoke} || sub {},
     }, $class;
     $class->set_context($self);
+    my $api = Net::DBus::Skype::Lite::API->new();
+    $self->{api} = $api;
     $self;
 }
 
@@ -117,7 +118,7 @@ Net::DBus::Skype::Lite -
     use Net::DBus::Skype::Lite;
 
     my $skype = Net::DBus::Skype::Lite->new();
-    for ($skype->recent_chat) {
+    for (@{$skype->recent_chat}) {
         $_->send_message(':)');
     }
 
@@ -125,10 +126,30 @@ Net::DBus::Skype::Lite -
 
 =over 4
 
+=item C<< Net::DBus::Skype::Lite->new() >>
+
+=item notify
+
+    Net::DBus::Skype::Lite->new(
+        notify => sub {
+            my ($self, $notification) = @_;
+            # run
+        }
+    );
+
+=item invoke
+
+    Net::DBus::Skype::Lite->new(
+        invoke => sub {
+            my ($self, $notification) = @_;
+            # run
+        }
+    );
+
 =item C<< $skype->trigger() >>
 
     $skype->trigger(sub {
-        my ($self, $res) = @_;
+        my ($self, $res, $notification) = @_;
         # run
     });
 

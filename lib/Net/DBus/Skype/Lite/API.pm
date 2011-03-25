@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use parent qw/Net::DBus::Object/;
 use Net::DBus;
+use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Command;
 
 sub new {
@@ -25,12 +26,16 @@ sub new {
 sub Notify {
     my ($self, $notification) = @_;
 
+    c->{notify}->(c, $notification);
+
     Net::DBus::Skype::Lite::Command->parse($notification);
     return 0;
 }
 
 sub Invoke {
     my ($self, $notification) = @_;
+
+    c->{invoke}->(c, $notification);
 
     $self->{invoke}->Invoke($notification);
 }
