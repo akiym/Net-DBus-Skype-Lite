@@ -19,8 +19,8 @@ sub new {
     $self->{invoke} = $invoke->get_object('/com/Skype', 'com.Skype.API');
 
     my $application_name = c->{name};
-    $self->Invoke(q{NAME $application_name});
-    $self->Invoke(q{PROTOCOL 7});
+    $self->Invoke(qq{NAME $application_name});
+    $self->Invoke(qq{PROTOCOL 7});
     $self;
 }
 
