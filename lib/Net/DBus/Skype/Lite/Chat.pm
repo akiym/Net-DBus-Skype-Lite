@@ -110,7 +110,8 @@ sub bookmarked {
 sub memberobjects {
     my ($self, $id) = @_;
 
-    my @members = $self->get_chat($id, 'MEMBEROBJECTS');
+    my $res = $self->get_chat($id, 'MEMBEROBJECTS');
+    my @members = split ', ', $res;
     for my $member (@members) {
         $member = cmd_object('ChatMember', $member);
     }
