@@ -205,7 +205,7 @@ the same as this
 
 =item C<< $skype->recent_chats() >>
 
-    for ($skype->recent_chats) {
+    for (@{$skype->recent_chats}) {
         $_->send_message('hello');
     }
 
@@ -215,11 +215,11 @@ the same as this
 
 the same as this
 
-    ($skype->recent_chats)[0]->send_message('hello');
+    $skype->recent_chats->[0]->send_message('hello');
 
 =item C<< $skype->groups() >>
 
-    for ($skype->groups) {
+    for (@{$skype->groups}) {
         print $_->displayname;
     }
 
