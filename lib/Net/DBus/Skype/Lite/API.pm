@@ -27,7 +27,6 @@ sub Notify {
     my ($self, $notification) = @_;
 
     c->{notify}->(c, $notification);
-
     Net::DBus::Skype::Lite::Command->parse($notification);
     return 0;
 }
@@ -35,9 +34,9 @@ sub Notify {
 sub Invoke {
     my ($self, $notification) = @_;
 
-    c->{invoke}->(c, $notification);
-
-    $self->{invoke}->Invoke($notification);
+    my $res = $self->{invoke}->Invoke($notification);
+    c->{invoke}->(c, $notification, $res);
+    $res;
 }
 
 1;

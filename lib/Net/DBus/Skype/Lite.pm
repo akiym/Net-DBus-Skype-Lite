@@ -141,7 +141,7 @@ Net::DBus::Skype::Lite -
 
     Net::DBus::Skype::Lite->new(
         invoke => sub {
-            my ($self, $notification) = @_;
+            my ($self, $notification, $res) = @_;
             # run
         }
     );
