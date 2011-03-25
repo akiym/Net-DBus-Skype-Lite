@@ -210,7 +210,7 @@ sub timezone {
 sub is_cf_active {
     my ($self, $id) = @_;
 
-    $self->get_user($id, 'IS_CF_ACTIVE');
+    my $res = $self->get_user($id, 'IS_CF_ACTIVE');
     $res eq 'TRUE' ? 1 : 0
 }
 
