@@ -3,14 +3,9 @@ Net::DBus::Skype::Lite
 
 Linuxで使えるSkype API wrapper
 
-## 使い方
-
-    % skype --use-system-dbus
-    % perl eg/nico-bot.pl
-
 ### 例: 発言を追いかけて、ニコニコ動画の動画概要を通知するボットを書く
 
-たったの28行で書けます。
+たったの30行で書けます。
 
     use strict;
     use warnings;
@@ -24,19 +19,21 @@ Linuxで使えるSkype API wrapper
         my ($video_id) = @_;
         my $res = $ua->get("http://ext.nicovideo.jp/api/getthumbinfo/$video_id");
         my $info = XMLin($res->decoded_content);
-        $info->{status} eq 'ok' ? $info : '';
+        return unless $info->{status} eq 'ok';
+        my $message = "$info->{thumb}{title}\n$info->{thumb}{description}";
     }
 
     my $skype = Net::DBus::Skype::Lite->new();
-    $skype->message_received(sub {
-        my ($self, $msg) = @_;
-        if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
-            my $info = get_info($video_id);
-            return unless $info;
-            my $thumb = $info->{thumb};
-            $self->send_message($msg->chatname, "$thumb->{title}\n$thumb->{description}");
+    $skype->chatmessage(
+        received => sub {
+            my ($self, $msg) = @_;
+            if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
+                my $message = get_info($video_id);
+                return unless $message;
+                $self->send_message($msg->chatname, $message);
+            }
         }
-    });
+    );
 
     my $reactor = Net::DBus::Reactor->main();
     $reactor->run();
