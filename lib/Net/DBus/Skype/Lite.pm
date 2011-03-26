@@ -144,15 +144,15 @@ Net::DBus::Skype::Lite -
     use Net::DBus::Skype::Lite;
 
     my $skype = Net::DBus::Skype::Lite->new();
-    for (@{$skype->recent_chat}) {
+    for (@{$skype->recent_chats}) {
         $_->send_message(':)');
     }
 
 =head1 METHODS
 
-=over 4
+=head2 C<< Net::DBus::Skype::Lite->new() >>
 
-=item C<< Net::DBus::Skype::Lite->new() >>
+=over 4
 
 =item name
 
@@ -176,71 +176,126 @@ Net::DBus::Skype::Lite -
         }
     );
 
-=item C<< $skype->trigger() >>
+=back
+
+=head2 C<< $skype->trigger() >>
 
     $skype->trigger(sub {
         my ($self, $res, $notification) = @_;
         # run
     });
 
-=item C<< $skype->user() >>
+=head2 C<< $skype->user() >>
 
     $skype->user(sub {
         my ($self, $user) = @_;
         # run
     });
 
-=item C<< $skype->call() >>
+=head2 C<< $skype->call() >>
 
     $skype->call(sub {
         my ($self, $call) = @_;
         # run
     });
 
+=over 4
+
 =item inprogress
 
-    $skype->call(inprogress => sub {
+    $skype->call(
+        inprogress => sub {
+            my ($self, $call) = @_;
+            # run
+        }
+    );
+
+the same as this
+
+    $skype->call(sub {
         my ($self, $call) = @_;
-        # run
+        if ($call->{property} eq 'STATUS' && $call->{value} eq 'INPROGRESS') {
+            # run
+        }
     });
 
 =item finished
 
-    $skype->call(finished => sub {
+    $skype->call(
+        finished => sub {
+            my ($self, $call) = @_;
+            # run
+        }
+    );
+
+the same as this
+
+    $skype->call(sub {
         my ($self, $call) = @_;
-        # run
+        if ($call->{property} eq 'STATUS' && $call->{value} eq 'FINISHED') {
+            # run
+        }
     });
 
-=item C<< $skype->chatmessage() >>
+=back
+
+=head2 C<< $skype->chatmessage() >>
 
     $skype->chatmessage(sub {
         my ($self, $chatmessage) = @_;
         # run
     });
 
+=over 4
+
 =item received
 
-    $skype->chatmessage(received => sub {
+    $skype->chatmessage(
+        received => sub {
+            my ($self, $chatmessage) = @_;
+            # run
+        }
+    );
+
+the same as this
+
+    $skype->chatmessage(sub {
         my ($self, $chatmessage) = @_;
-        # run
+        if ($chatmessage->{property} eq 'STATUS' && $chatmessage->{value} eq 'RECEIVED') {
+            # run
+        }
     });
 
-=item C<< $skype->create_chat() >>
+=back
+
+=head2 C<< $skype->create_chat() >>
+
+return Net::DBus::Skype::Lite::Chat object.
 
     $skype->create_chat('echo123');
 
-=item C<< $skype->send_message() >>
+=head2 C<< $skype->send_message() >>
 
     my $id = $skype->create_chat('echo123')->name;
     $skype->send_message($id, 'hello');
 
-=item C<< $skype->recent_chats() >>
+=head2 C<< $skype->friends() >>
+
+return arrayref of Net::DBus::Skype::Lite::User object.
+
+    for (@{$skype->friends}) {
+        print $_->fullname;
+    }
+
+=head2 C<< $skype->recent_chats() >>
+
+return arrayref of Net::DBus::Skype::Lite::Chat object.
 
     for (@{$skype->recent_chats}) {
         $_->send_message('hello');
     }
 
-=item C<< $skype->recent_chat() >>
+=head2 C<< $skype->recent_chat() >>
 
     $skype->recent_chat->send_message('hello');
 
@@ -248,11 +303,35 @@ the same as this
 
     $skype->recent_chats->[0]->send_message('hello');
 
-=item C<< $skype->groups() >>
+=head2 C<< $skype->groups() >>
+
+return arrayref of Net::DBus::Skype::Lite::Group object.
 
     for (@{$skype->groups}) {
         print $_->displayname;
     }
 
-=back
+=head1 OBJECTS
+
+=head2 Net::DBus::Skype::Lite::User;
+
+=head2 Net::DBus::Skype::Lite::Profile;
+
+=head2 Net::DBus::Skype::Lite::Call;
+
+=head2 Net::DBus::Skype::Lite::Chat;
+
+=head2 Net::DBus::Skype::Lite::ChatMember;
+
+=head2 Net::DBus::Skype::Lite::ChatMessage;
+
+=head2 Net::DBus::Skype::Lite::VoiceMail;
+
+=head2 Net::DBus::Skype::Lite::SMS;
+
+=head2 Net::DBus::Skype::Lite::Application;
+
+=head2 Net::DBus::Skype::Lite::Group;
+
+=head2 Net::DBus::Skype::Lite::FileTransfer;
 
