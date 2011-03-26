@@ -12,9 +12,13 @@ sub parse_res {
 }
 
 sub cmd_object {
-    my ($command, $res) = @_;
+    my ($command, $id, $property, $value) = @_;
 
-    "Net::DBus::Skype::Lite::$command"->new($res);
+    "Net::DBus::Skype::Lite::$command"->new(
+        id => $id,
+        property => $property,
+        value => $value,
+    );
 }
 
 1;

@@ -5,10 +5,12 @@ use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Util qw/parse_res/;
 
 sub new {
-    my ($class, $id) = @_;
+    my ($class, %args) = @_;
 
     bless {
-        id => $id,
+        id => $args{id},
+        property => $args{property},
+        value => $args{value},
     }, $class;
 }
 

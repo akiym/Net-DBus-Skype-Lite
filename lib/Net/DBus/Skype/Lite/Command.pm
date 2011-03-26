@@ -22,13 +22,21 @@ sub parse {
     my ($command, $id, $property, $value) = parse_res($notification);
     given ($command) {
         when ('USER') {
-            my $cmd = cmd_object('User', $id);
+            my $cmd = cmd_object('User', $id, $property, $value);
             c->{trigger}->(c, $cmd, $notification);
+            if (ref(c->{user}) eq 'CODE') {
+                use Log::Minimal;
+                debugf('%s', ddf($cmd));
+                c->{user}->(c, $cmd);
+            }
             return $cmd;
         }
         when ('CALL') {
-            my $cmd = cmd_object('Call', $id);
+            my $cmd = cmd_object('Call', $id, $property, $value);
             c->{trigger}->(c, $cmd, $notification);
+            if (ref(c->{call}) eq 'CODE') {
+                c->{call}->(c, $cmd);
+            }
             my $call = $cmd->call;
             if ($property eq 'STATUS') {
                 if ($value eq 'INPROGRESS' && ref(c->{call_inprogress}) eq 'CODE') {
@@ -40,8 +48,11 @@ sub parse {
             return $cmd;
         }
         when ('CHATMESSAGE') {
-            my $cmd = cmd_object('ChatMessage', $id);
+            my $cmd = cmd_object('ChatMessage', $id, $property, $value) ;
             c->{trigger}->(c, $cmd, $notification);
+            if (ref(c->{chatmessage}) eq 'CODE') {
+                c->{chatmessage}->(c, $cmd);
+            }
             my $chatmessage = $cmd->chatmessage;
             if ($property eq 'STATUS') {
                 if ($value eq 'RECEIVED' && ref(c->{chatmessage_received}) eq 'CODE') {

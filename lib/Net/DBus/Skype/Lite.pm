@@ -34,19 +34,42 @@ sub trigger {
     $self->{trigger} = $hook;
 }
 
-sub call {
-    my ($self, %hook) = @_;
+sub user {
+    my $self = shift;
+    my $hook = @_==1 ? $_[0] : {@_};
 
-    while (my ($name, $hook) = each %hook) {
-        $self->{"call_$name"} = $hook;
+    if (ref($hook) eq 'HASH') {
+        while (my ($name, $hook) = each %$hook) {
+            $self->{"user_$name"} = $hook;
+        }
+    } else {
+        $self->{user} = $hook;
+    }
+}
+
+sub call {
+    my $self = shift;
+    my $hook = @_==1 ? $_[0] : {@_};
+
+    if (ref($hook) eq 'HASH') {
+        while (my ($name, $hook) = each %$hook) {
+            $self->{"call_$name"} = $hook;
+        }
+    } else {
+        $self->{call} = $hook;
     }
 }
 
 sub chatmessage {
-    my ($self, %hook) = @_;
+    my $self = shift;
+    my $hook = @_==1 ? $_[0] : {@_};
 
-    while (my ($name, $hook) = each %hook) {
-        $self->{"chatmessage_$name"} = $hook;
+    if (ref($hook) eq 'HASH') {
+        while (my ($name, $hook) = each %$hook) {
+            $self->{"chatmessage_$name"} = $hook;
+        }
+    } else {
+        $self->{chatmessage} = $hook;
     }
 }
 
@@ -55,8 +78,8 @@ sub create_chat {
 
     my $handle = join ', ', @handle;
     my $res = $self->api(qq{CHAT CREATE $handle});
-    my $id = (parse_res($res))[1];
-    cmd_object('Chat', $id);
+    my ($command, $id, $property, $value) = parse_res($res);
+    cmd_object('Chat', $id, $property, $value);
 }
 
 sub send_message {
@@ -160,7 +183,19 @@ Net::DBus::Skype::Lite -
         # run
     });
 
+=item C<< $skype->user() >>
+
+    $skype->user(sub {
+        my ($self, $user) = @_;
+        # run
+    });
+
 =item C<< $skype->call() >>
+
+    $skype->call(sub {
+        my ($self, $call) = @_;
+        # run
+    });
 
 =item inprogress
 
@@ -177,6 +212,11 @@ Net::DBus::Skype::Lite -
     });
 
 =item C<< $skype->chatmessage() >>
+
+    $skype->chatmessage(sub {
+        my ($self, $chatmessage) = @_;
+        # run
+    });
 
 =item received
 
