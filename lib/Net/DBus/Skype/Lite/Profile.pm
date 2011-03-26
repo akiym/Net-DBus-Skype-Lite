@@ -8,7 +8,6 @@ sub new {
     my ($class, %args) = @_;
 
     bless {
-        id => $args{id},
         property => $args{property},
         value => $args{value},
     }, $class;
@@ -17,143 +16,150 @@ sub new {
 sub profile { shift }
 
 sub get_profile {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
-    my $res = c->api(qq{GET PROFILE $id $property});
-    (parse_res($res))[3];
+    my $res = c->api(qq{GET PROFILE $property});
+    (parse_res($res, 3))[2];
 }
 
 sub pstn_balance {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'PSTN_BALANCE');
+    $self->get_profile('PSTN_BALANCE');
 }
 
 sub pstn_balance_currency {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'PSTN_BALANCE_CURRENCY');
+    $self->get_profile('PSTN_BALANCE_CURRENCY');
 }
 
 sub fullname {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'FULLNAME');
+    $self->get_profile('FULLNAME');
 }
 
 sub birthday {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'BIRTHDAY');
+    $self->get_profile('BIRTHDAY');
 }
 
 sub sex {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'SEX');
+    $self->get_profile('SEX');
 }
 
 sub languages {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'LANGUAGES');
+    $self->get_profile('LANGUAGES');
 }
 
 sub country {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'COUNTRY');
+    $self->get_profile('COUNTRY');
 }
 
 sub ipcountry {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'IPCOUNTRY');
+    $self->get_profile('IPCOUNTRY');
 }
 
 sub province {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'PROVINCE');
+    $self->get_profile('PROVINCE');
 }
 
 sub city {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'CITY');
+    $self->get_profile('CITY');
 }
 
 sub phone_home {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'PHONE_HOME');
+    $self->get_profile('PHONE_HOME');
 }
 
 sub phone_office {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'PHONE_OFFICE');
+    $self->get_profile('PHONE_OFFICE');
 }
 
 sub phone_mobile {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'PHONE_MOBILE');
+    $self->get_profile('PHONE_MOBILE');
 }
 
 sub homepage {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'HOMEPAGE');
+    $self->get_profile('HOMEPAGE');
 }
 
 sub about {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'ABOUT');
+    $self->get_profile('ABOUT');
 }
 
 sub mood_text {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'MOOD_TEXT');
+    $self->get_profile('MOOD_TEXT');
 }
 
 sub rich_mood_text {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'RICH_MOOD_TEXT');
+    $self->get_profile('RICH_MOOD_TEXT');
 }
 
 sub timezone {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'TIMEZONE');
+    $self->get_profile('TIMEZONE');
 }
 
 sub call_apply_cf {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'CALL_APPLY_CF');
+    my $res = $self->get_profile('CALL_APPLY_CF');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
-sub call_noanswer_rules {
-    my ($self, $id) = @_;
+sub call_noanswer_timeout {
+    my ($self) = @_;
 
-    $self->get_profile($id, 'CALL_NOANSWER_RULES');
+    $self->get_profile('CALL_NOANSWER_TIMEOUT');
+}
+
+sub call_forward_rules {
+    my ($self) = @_;
+
+    $self->get_profile('CALL_FORWARD_RULES');
 }
 
 sub call_send_to_vm {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'CALL_SEND_TO_VM');
+    my $res = $self->get_profile('CALL_SEND_TO_VM');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub sms_validated_numbers {
-    my ($self, $id) = @_;
+    my ($self) = @_;
 
-    $self->get_profile($id, 'SMS_VALIDATED_NUMBERS');
+    $self->get_profile('SMS_VALIDATED_NUMBERS');
 }
 
 1;
@@ -192,7 +198,8 @@ Net::DBus::Skype::Lite::Profile
 =item rich_mood_text
 =item timezone
 =item call_apply_cf
-=item call_noanswer_rules
+=item call_noanswer_timeout
+=item call_forward_rules
 =item call_send_to_vm
 =item sms_validated_numbers
 

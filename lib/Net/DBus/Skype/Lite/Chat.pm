@@ -104,8 +104,8 @@ sub recentchatmessages {
 
     my $res = $self->get_chat($id, 'RECENTCHATMESSAGES');
     my @messages = split ', ', $res;
-    for my $id (@messages) {
-        $id = cmd_object('ChatMessage', $id);
+    for my $message (@messages) {
+        $message = cmd_object('ChatMessage', id => $message);
     }
     \@messages;
 }
@@ -123,7 +123,7 @@ sub memberobjects {
     my $res = $self->get_chat($id, 'MEMBEROBJECTS');
     my @members = split ', ', $res;
     for my $member (@members) {
-        $member = cmd_object('ChatMember', $member);
+        $member = cmd_object('ChatMember', id => $member);
     }
     \@members;
 }

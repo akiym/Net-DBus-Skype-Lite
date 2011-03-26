@@ -22,17 +22,23 @@ sub parse {
     my ($command, $id, $property, $value) = parse_res($notification);
     given ($command) {
         when ('USER') {
-            my $cmd = cmd_object('User', $id, $property, $value);
+            my $cmd = cmd_object('User', id => $id, property => $property, value => $value);
             c->{trigger}->(c, $cmd, $notification);
             if (ref(c->{user}) eq 'CODE') {
-                use Log::Minimal;
-                debugf('%s', ddf($cmd));
                 c->{user}->(c, $cmd);
             }
             return $cmd;
         }
+        when ('PROFILE') {
+            my $cmd = cmd_object('Profile', property => $id, value => $property);
+            c->{trigger}->(c, $cmd, $notification);
+            if (ref(c->{profile}) eq 'CODE') {
+                c->{profile}->(c, $cmd);
+            }
+            return $cmd;
+        }
         when ('CALL') {
-            my $cmd = cmd_object('Call', $id, $property, $value);
+            my $cmd = cmd_object('Call', id => $id, property => $property, value => $value);
             c->{trigger}->(c, $cmd, $notification);
             if (ref(c->{call}) eq 'CODE') {
                 c->{call}->(c, $cmd);
@@ -48,7 +54,7 @@ sub parse {
             return $cmd;
         }
         when ('CHATMESSAGE') {
-            my $cmd = cmd_object('ChatMessage', $id, $property, $value) ;
+            my $cmd = cmd_object('ChatMessage', id => $id, property => $property, value => $value);
             c->{trigger}->(c, $cmd, $notification);
             if (ref(c->{chatmessage}) eq 'CODE') {
                 c->{chatmessage}->(c, $cmd);
