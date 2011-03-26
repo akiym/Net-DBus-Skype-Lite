@@ -9,13 +9,18 @@ use File::Temp qw/tempfile/;
 use Log::Minimal;
 
 my $skype = Net::DBus::Skype::Lite->new();
-$skype->call_inprogress(sub {
-    my ($self, $call) = @_;
-    my $id = $call->{id};
-    my ($fh, $file) = tempfile(SUFFIX => '.wav');
-    infof("log: $file");
-    $self->api(qq{ALTER CALL $id SET_OUTPUT file="$file"});
-});
+$skype->call(
+    inprogress => sub {
+        my ($self, $call) = @_;
+        my $id = $call->{id};
+        my ($fh, $file) = tempfile(SUFFIX => '.wav');
+        infof("log: $file");
+        $self->api(qq{ALTER CALL $id SET_OUTPUT file="$file"});
+    },
+    finished => sub {
+        infof('recorded...');
+    },
+);
 
 my $reactor = Net::DBus::Reactor->main();
 $reactor->run();

@@ -19,8 +19,6 @@ sub new {
         notify => $args{notify} || sub {},
         invoke => $args{invoke} || sub {},
         trigger => sub {},
-        call_inprogress => sub {},
-        message_received => sub {},
     }, $class;
     $class->set_context($self);
     my $api = Net::DBus::Skype::Lite::API->new();
@@ -36,16 +34,20 @@ sub trigger {
     $self->{trigger} = $hook;
 }
 
-sub call_inprogress {
-    my ($self, $hook) = @_;
+sub call {
+    my ($self, %hook) = @_;
 
-    $self->{call_inprogress} = $hook;
+    while (my ($name, $hook) = each %hook) {
+        $self->{"call_$name"} = $hook;
+    }
 }
 
-sub message_received {
-    my ($self, $hook) = @_;
+sub chatmessage {
+    my ($self, %hook) = @_;
 
-    $self->{message_received} = $hook;
+    while (my ($name, $hook) = each %hook) {
+        $self->{"chatmessage_$name"} = $hook;
+    }
 }
 
 sub create_chat {
@@ -158,40 +160,29 @@ Net::DBus::Skype::Lite -
         # run
     });
 
-=item C<< $skype->call_inprogress() >>
+=item C<< $skype->call() >>
 
-    skype->call_inprogress(sub {
+=item inprogress
+
+    $skype->call(inprogress => sub {
         my ($self, $call) = @_;
         # run
     });
 
-the same as this
+=item finished
 
-    $skype->trigger(sub {
-        my ($self, $res) = @_;
-        if (my $call = $res->call) {
-            if ($call->status eq 'INPROGRESS') {
-                # run
-            }
-        }
+    $skype->call(finished => sub {
+        my ($self, $call) = @_;
+        # run
     });
 
-=item C<< $skype->message_received() >>
+=item C<< $skype->chatmessage() >>
 
-    $skype->message_received(sub {
-        my ($self, $msg) = @_;
-        print $msg->body;
-    });
+=item received
 
-the same as this
-
-    $skype->trigger(sub {
-        my ($self, $res) = @_;
-        if (my $msg = $res->chatmessage) {
-            if ($msg->status eq 'RECEIVED') {
-                print $msg->body;
-            }
-        }
+    $skype->chatmessage(received => sub {
+        my ($self, $chatmessage) = @_;
+        # run
     });
 
 =item C<< $skype->create_chat() >>

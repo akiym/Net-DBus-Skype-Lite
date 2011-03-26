@@ -30,8 +30,12 @@ sub parse {
             my $cmd = cmd_object('Call', $id);
             c->{trigger}->(c, $cmd, $notification);
             my $call = $cmd->call;
-            if ($property eq 'STATUS' && $value eq 'INPROGRESS') {
-                return c->{call_inprogress}->(c, $call);
+            if ($property eq 'STATUS') {
+                if ($value eq 'INPROGRESS' && ref(c->{call_inprogress}) eq 'CODE') {
+                    return c->{call_inprogress}->(c, $call);
+                } elsif ($value eq 'FINISHED' && ref(c->{call_finished}) eq 'CODE') {
+                    return c->{call_finished}->(c, $call);
+                }
             }
             return $cmd;
         }
@@ -39,8 +43,10 @@ sub parse {
             my $cmd = cmd_object('ChatMessage', $id);
             c->{trigger}->(c, $cmd, $notification);
             my $chatmessage = $cmd->chatmessage;
-            if ($property eq 'STATUS' && $value eq 'RECEIVED') {
-                return c->{message_received}->(c, $chatmessage);
+            if ($property eq 'STATUS') {
+                if ($value eq 'RECEIVED' && ref(c->{chatmessage_received}) eq 'CODE') {
+                    return c->{chatmessage_received}->(c, $chatmessage);
+                }
             }
             return $cmd;
         }

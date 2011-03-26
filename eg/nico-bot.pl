@@ -25,19 +25,7 @@ my $skype = Net::DBus::Skype::Lite->new(
         debugf($notify);
     }
 );
-$skype->trigger(sub {
-    my ($self, $res) = @_;
-    if (my $user = $res->user) {
-        if (my ($video_id) = $user->mood_text =~ /([sn]m\d+)/) {
-            my $message = get_info($video_id);
-            return unless $message;
-            infof($user->handle . ': ' . $user->mood_text);
-            debugf($user->handle);
-            $self->create_chat($user->handle)->send_message($message);
-        }
-    }
-});
-$skype->message_received(sub {
+$skype->chatmessage(received => sub {
     my ($self, $msg) = @_;
     if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
         my $message = get_info($video_id);
