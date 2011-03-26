@@ -42,8 +42,26 @@ sub user {
         while (my ($name, $hook) = each %$hook) {
             $self->{"user_$name"} = $hook;
         }
-    } else {
+    } elsif (ref($hook) eq 'CODE') {
         $self->{user} = $hook;
+    } else {
+        my $id = $hook;
+        return cmd_object('User', id => $id);
+    }
+}
+
+sub profile {
+    my $self = shift;
+    my $hook = @_==1 ? $_[0] : {@_};
+
+    if (ref($hook) eq 'HASH') {
+        while (my ($name, $hook) = each %$hook) {
+            $self->{"user_$name"} = $hook;
+        }
+    } elsif (ref($hook) eq 'CODE') {
+        $self->{user} = $hook;
+    } else {
+        return cmd_object('Profile');
     }
 }
 
@@ -55,8 +73,11 @@ sub call {
         while (my ($name, $hook) = each %$hook) {
             $self->{"call_$name"} = $hook;
         }
-    } else {
+    } elsif (ref($hook) eq 'CODE') {
         $self->{call} = $hook;
+    } else {
+        my $id = $hook;
+        return cmd_object('Call', id => $id);
     }
 }
 
@@ -68,8 +89,11 @@ sub chatmessage {
         while (my ($name, $hook) = each %$hook) {
             $self->{"chatmessage_$name"} = $hook;
         }
-    } else {
+    } elsif (ref($hook) eq 'CODE') {
         $self->{chatmessage} = $hook;
+    } else {
+        my $id = $hook;
+        return cmd_object('ChatMessage', id => $id);
     }
 }
 
@@ -79,7 +103,7 @@ sub create_chat {
     my $handle = join ', ', @handle;
     my $res = $self->api(qq{CHAT CREATE $handle});
     my ($command, $id, $property, $value) = parse_res($res);
-    cmd_object('Chat', $id, $property, $value);
+    cmd_object('Chat', id => $id, property => $property, value => $value);
 }
 
 sub send_message {
@@ -95,7 +119,7 @@ sub friends {
     my ($command, $friend) = parse_res($res, 2);
     my @friend = split ', ', $friend;
     for my $id (@friend) {
-        $id = cmd_object('User', $id);
+        $id = cmd_object('User', id => $id);
     }
     \@friend;
 }
@@ -107,7 +131,7 @@ sub recent_chats {
     my ($command, $chatname) = parse_res($res, 2);
     my @chatname = split ', ', $chatname;
     for my $id (@chatname) {
-        $id = cmd_object('Chat', $id);
+        $id = cmd_object('Chat', id => $id);
     }
     \@chatname;
 }
@@ -127,7 +151,7 @@ sub groups {
     my @group = split ', ', $group;
     for my $id (@group) {
         # when module is loaded?
-        $id = cmd_object('Group', $id);
+        $id = cmd_object('Group', id => $id);
     }
     \@group;
 }
@@ -187,12 +211,20 @@ Net::DBus::Skype::Lite -
 
 =head2 C<< $skype->user() >>
 
+    $skype->user();
+
     $skype->user(sub {
         my ($self, $user) = @_;
         # run
     });
 
+=head2 C<< $skype->profile() >>
+
+    $skype->profile();
+
 =head2 C<< $skype->call() >>
+
+    $skype->call();
 
     $skype->call(sub {
         my ($self, $call) = @_;
@@ -240,6 +272,8 @@ the same as this
 =back
 
 =head2 C<< $skype->chatmessage() >>
+
+    $skype->chatmessage();
 
     $skype->chatmessage(sub {
         my ($self, $chatmessage) = @_;
