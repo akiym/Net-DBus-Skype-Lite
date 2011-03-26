@@ -30,7 +30,7 @@ sub parse {
             my $cmd = cmd_object('Call', $id);
             c->{trigger}->(c, $cmd, $notification);
             my $call = $cmd->call;
-            if ($call->status eq 'INPROGRESS') {
+            if ($property eq 'STATUS' && $value eq 'INPROGRESS') {
                 return c->{call_inprogress}->(c, $call);
             }
             return $cmd;
@@ -39,7 +39,7 @@ sub parse {
             my $cmd = cmd_object('ChatMessage', $id);
             c->{trigger}->(c, $cmd, $notification);
             my $chatmessage = $cmd->chatmessage;
-            if ($chatmessage->status eq 'RECEIVED') {
+            if ($property eq 'STATUS' && $value eq 'RECEIVED') {
                 return c->{message_received}->(c, $chatmessage);
             }
             return $cmd;
