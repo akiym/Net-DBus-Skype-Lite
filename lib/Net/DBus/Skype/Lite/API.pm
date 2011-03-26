@@ -20,7 +20,7 @@ sub new {
 
     my $application_name = c->{name};
     $self->Invoke(qq{NAME $application_name});
-    $self->Invoke(qq{PROTOCOL 7});
+    $self->Invoke(qq{PROTOCOL 8});
     $self;
 }
 
