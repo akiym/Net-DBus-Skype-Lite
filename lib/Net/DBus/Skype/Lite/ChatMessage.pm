@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Chat;
-use Net::DBus::Skype::Lite::Util qw/parse_res/;
+use Net::DBus::Skype::Lite::Util;
 
 sub new {
     my ($class, %args) = @_;
@@ -22,7 +22,7 @@ sub get_chatmessage {
     $id ||= $self->{id};
 
     my $res = c->api(qq{GET CHATMESSAGE $id $property});
-    (parse_res($res))[3];
+    (parse_notification($res))[3];
 }
 
 sub timestamp {

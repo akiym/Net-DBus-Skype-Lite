@@ -2,7 +2,7 @@ package Net::DBus::Skype::Lite::Chat;
 use strict;
 use warnings;
 use Net::DBus::Skype::Lite::Context;
-use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
+use Net::DBus::Skype::Lite::Util;
 
 sub new {
     my ($class, %args) = @_;
@@ -28,7 +28,7 @@ sub get_chat {
     $id ||= $self->{id};
 
     my $res = c->api(qq{GET CHAT $id $property});
-    (parse_res($res))[3];
+    (parse_notification($res))[3];
 }
 
 sub name {
@@ -105,7 +105,7 @@ sub recentchatmessages {
     my $res = $self->get_chat($id, 'RECENTCHATMESSAGES');
     my @messages = split ', ', $res;
     for my $message (@messages) {
-        $message = cmd_object('ChatMessage', id => $message);
+        $message = object('ChatMessage', id => $message);
     }
     \@messages;
 }
@@ -123,7 +123,7 @@ sub memberobjects {
     my $res = $self->get_chat($id, 'MEMBEROBJECTS');
     my @members = split ', ', $res;
     for my $member (@members) {
-        $member = cmd_object('ChatMember', id => $member);
+        $member = object('ChatMember', id => $member);
     }
     \@members;
 }

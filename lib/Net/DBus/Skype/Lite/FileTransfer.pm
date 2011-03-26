@@ -2,7 +2,7 @@ package Net::DBus::Skype::Lite::FileTransfer;
 use strict;
 use warnings;
 use Net::DBus::Skype::Lite::Context;
-use Net::DBus::Skype::Lite::Util qw/parse_res/;
+use Net::DBus::Skype::Lite::Util;
 
 sub new {
     my ($class, %args) = @_;
@@ -21,7 +21,7 @@ sub get_filetransfer {
     $id ||= $self->{id};
 
     my $res = c->api(qq{GET FILETRANSFER $id $property});
-    (parse_res($res))[3];
+    (parse_notification($res))[3];
 }
 
 sub type {

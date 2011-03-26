@@ -2,16 +2,16 @@ package Net::DBus::Skype::Lite::Util;
 use strict;
 use warnings;
 use parent qw/Exporter/;
-our @EXPORT_OK = qw/parse_res cmd_object/;
+our @EXPORT = qw/parse_notification object/;
 
-sub parse_res {
-    my ($res, $limit) = @_;
+sub parse_notification {
+    my ($notification, $limit) = @_;
     $limit //= 4;
 
-    my @res = split /\s+/, $res, $limit;
+    my @notification = split /\s+/, $notification, $limit;
 }
 
-sub cmd_object {
+sub object {
     my ($command, %args) = @_;
 
     "Net::DBus::Skype::Lite::$command"->new(

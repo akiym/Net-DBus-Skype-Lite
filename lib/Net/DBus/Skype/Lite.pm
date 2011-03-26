@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Net::DBus::Skype::Lite::API;
 use Net::DBus::Skype::Lite::Command;
-use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
+use Net::DBus::Skype::Lite::Util;
 
 {
     our $CONTEXT;
@@ -46,7 +46,7 @@ sub user {
         $self->{user} = $hook;
     } else {
         my $id = $hook;
-        return cmd_object('User', id => $id);
+        return object('User', id => $id);
     }
 }
 
@@ -61,7 +61,7 @@ sub profile {
     } elsif (ref($hook) eq 'CODE') {
         $self->{user} = $hook;
     } else {
-        return cmd_object('Profile');
+        return object('Profile');
     }
 }
 
@@ -77,7 +77,7 @@ sub call {
         $self->{call} = $hook;
     } else {
         my $id = $hook;
-        return cmd_object('Call', id => $id);
+        return object('Call', id => $id);
     }
 }
 
@@ -93,7 +93,7 @@ sub chatmessage {
         $self->{chatmessage} = $hook;
     } else {
         my $id = $hook;
-        return cmd_object('ChatMessage', id => $id);
+        return object('ChatMessage', id => $id);
     }
 }
 
@@ -102,8 +102,8 @@ sub create_chat {
 
     my $handle = join ', ', @handle;
     my $res = $self->api(qq{CHAT CREATE $handle});
-    my ($command, $id, $property, $value) = parse_res($res);
-    cmd_object('Chat', id => $id, property => $property, value => $value);
+    my ($command, $id, $property, $value) = parse_notification($res);
+    object('Chat', id => $id, property => $property, value => $value);
 }
 
 sub send_message {
@@ -116,10 +116,10 @@ sub friends {
     my ($self) = @_;
 
     my $res = $self->api(qq{SEARCH FRIENDS});
-    my ($command, $friend) = parse_res($res, 2);
+    my ($command, $friend) = parse_notification($res, 2);
     my @friend = split ', ', $friend;
     for my $id (@friend) {
-        $id = cmd_object('User', id => $id);
+        $id = object('User', id => $id);
     }
     \@friend;
 }
@@ -128,10 +128,10 @@ sub recent_chats {
     my ($self) = @_;
 
     my $res = $self->api(qq{SEARCH RECENTCHATS});
-    my ($command, $chatname) = parse_res($res, 2);
+    my ($command, $chatname) = parse_notification($res, 2);
     my @chatname = split ', ', $chatname;
     for my $id (@chatname) {
-        $id = cmd_object('Chat', id => $id);
+        $id = object('Chat', id => $id);
     }
     \@chatname;
 }
@@ -147,11 +147,11 @@ sub groups {
     my ($self) = @_;
 
     my $res = $self->api(qq{SEARCH GROUPS});
-    my ($command, $group) = parse_res($res, 2);
+    my ($command, $group) = parse_notification($res, 2);
     my @group = split ', ', $group;
     for my $id (@group) {
         # when module is loaded?
-        $id = cmd_object('Group', id => $id);
+        $id = object('Group', id => $id);
     }
     \@group;
 }

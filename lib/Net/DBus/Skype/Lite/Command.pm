@@ -14,15 +14,15 @@ use Net::DBus::Skype::Lite::SMS;
 #use Net::DBus::Skype::Lite::Application;
 use Net::DBus::Skype::Lite::Group;
 use Net::DBus::Skype::Lite::FileTransfer;
-use Net::DBus::Skype::Lite::Util qw/parse_res cmd_object/;
+use Net::DBus::Skype::Lite::Util;
 
 sub parse {
     my ($class, $notification) = @_;
 
-    my ($command, $id, $property, $value) = parse_res($notification);
+    my ($command, $id, $property, $value) = parse_notification($notification);
     given ($command) {
         when ('USER') {
-            my $cmd = cmd_object('User', id => $id, property => $property, value => $value);
+            my $cmd = object('User', id => $id, property => $property, value => $value);
             c->{trigger}->(c, $cmd, $notification);
             if (ref(c->{user}) eq 'CODE') {
                 c->{user}->(c, $cmd);
@@ -30,7 +30,7 @@ sub parse {
             return $cmd;
         }
         when ('PROFILE') {
-            my $cmd = cmd_object('Profile', property => $id, value => $property);
+            my $cmd = object('Profile', property => $id, value => $property);
             c->{trigger}->(c, $cmd, $notification);
             if (ref(c->{profile}) eq 'CODE') {
                 c->{profile}->(c, $cmd);
@@ -38,7 +38,7 @@ sub parse {
             return $cmd;
         }
         when ('CALL') {
-            my $cmd = cmd_object('Call', id => $id, property => $property, value => $value);
+            my $cmd = object('Call', id => $id, property => $property, value => $value);
             c->{trigger}->(c, $cmd, $notification);
             if (ref(c->{call}) eq 'CODE') {
                 c->{call}->(c, $cmd);
@@ -54,7 +54,7 @@ sub parse {
             return $cmd;
         }
         when ('CHATMESSAGE') {
-            my $cmd = cmd_object('ChatMessage', id => $id, property => $property, value => $value);
+            my $cmd = object('ChatMessage', id => $id, property => $property, value => $value);
             c->{trigger}->(c, $cmd, $notification);
             if (ref(c->{chatmessage}) eq 'CODE') {
                 c->{chatmessage}->(c, $cmd);

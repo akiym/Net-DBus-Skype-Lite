@@ -2,7 +2,7 @@ package Net::DBus::Skype::Lite::Profile;
 use strict;
 use warnings;
 use Net::DBus::Skype::Lite::Context;
-use Net::DBus::Skype::Lite::Util qw/parse_res/;
+use Net::DBus::Skype::Lite::Util;
 
 sub new {
     my ($class, %args) = @_;
@@ -19,7 +19,7 @@ sub get_profile {
     my ($self, $property) = @_;
 
     my $res = c->api(qq{GET PROFILE $property});
-    (parse_res($res, 3))[2];
+    (parse_notification($res, 3))[2];
 }
 
 sub pstn_balance {
