@@ -48,10 +48,10 @@ sub sex {
     $self->get_user($id, 'SEX');
 }
 
-sub languages {
+sub language {
     my ($self, $id) = @_;
 
-    $self->get_user($id, 'LANGUAGES');
+    $self->get_user($id, 'LANGUAGE');
 }
 
 sub country {
@@ -105,7 +105,8 @@ sub about {
 sub hascallequipment {
     my ($self, $id) = @_;
 
-    $self->get_user($id, 'HASCALLEQUIPMENT');
+    my $res = $self->get_user($id, 'HASCALLEQUIPMENT');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub is_video_capable {
@@ -148,17 +149,17 @@ sub onlinestatus {
     $self->get_user($id, 'ONLINESTATUS');
 }
 
-sub skypeout {
-    my ($self, $id) = @_;
+#sub skypeout {
+#    my ($self, $id) = @_;
+#
+#    $self->get_user($id, 'SKYPEOUT');
+#}
 
-    $self->get_user($id, 'SKYPEOUT');
-}
-
-sub skypeme {
-    my ($self, $id) = @_;
-
-    $self->get_user($id, 'SKYPEME');
-}
+#sub skypeme {
+#    my ($self, $id) = @_;
+#
+#    $self->get_user($id, 'SKYPEME');
+#}
 
 sub lastonlinetimestamp {
     my ($self, $id) = @_;
@@ -166,10 +167,10 @@ sub lastonlinetimestamp {
     $self->get_user($id, 'LASTONLINETIMESTAMP');
 }
 
-sub cam_leave_vm {
+sub can_leave_vm {
     my ($self, $id) = @_;
 
-    my $res = $self->get_user($id, 'CAM_LEAVE_VM');
+    my $res = $self->get_user($id, 'CAN_LEAVE_VM');
     $res eq 'TRUE' ? 1 : 0;
 }
 
@@ -243,7 +244,7 @@ Net::DBus::Skype::Lite::User
 =item fullname
 =item birthday
 =item sex
-=item languages
+=item language
 =item country
 =item province
 =item city
@@ -259,10 +260,8 @@ Net::DBus::Skype::Lite::User
 =item isauthorized
 =item isblocked
 =item onlinestatus
-=item skypeout
-=item skypeme
 =item lastonlinetimestamp
-=item cam_leave_vm
+=item can_leave_vm
 =item speeddial
 =item receivedauthrequest
 =item mood_text
