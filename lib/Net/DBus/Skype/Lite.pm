@@ -115,8 +115,8 @@ sub recent_chats {
 sub recent_chat {
     my ($self) = @_;
 
-    my @chatname = $self->recent_chats();
-    $chatname[0];
+    my $chatname = $self->recent_chats;
+    $chatname->[0];
 }
 
 sub groups {
