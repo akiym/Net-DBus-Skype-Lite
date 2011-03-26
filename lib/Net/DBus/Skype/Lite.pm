@@ -38,11 +38,7 @@ sub user {
     my $self = shift;
     my $hook = @_==1 ? $_[0] : {@_};
 
-    if (ref($hook) eq 'HASH') {
-        while (my ($name, $hook) = each %$hook) {
-            $self->{"user_$name"} = $hook;
-        }
-    } elsif (ref($hook) eq 'CODE') {
+    if (ref($hook) eq 'CODE') {
         $self->{user} = $hook;
     } else {
         my $id = $hook;
@@ -54,12 +50,8 @@ sub profile {
     my $self = shift;
     my $hook = @_==1 ? $_[0] : {@_};
 
-    if (ref($hook) eq 'HASH') {
-        while (my ($name, $hook) = each %$hook) {
-            $self->{"user_$name"} = $hook;
-        }
-    } elsif (ref($hook) eq 'CODE') {
-        $self->{user} = $hook;
+    if (ref($hook) eq 'CODE') {
+        $self->{profile} = $hook;
     } else {
         return object('Profile');
     }
@@ -221,6 +213,11 @@ Net::DBus::Skype::Lite -
 =head2 C<< $skype->profile() >>
 
     $skype->profile();
+
+    $skype->profile(sub {
+        my ($self, $profile) = @_;
+        # run
+    });
 
 =head2 C<< $skype->call() >>
 
