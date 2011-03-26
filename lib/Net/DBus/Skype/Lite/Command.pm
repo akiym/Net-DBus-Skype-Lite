@@ -1,7 +1,6 @@
 package Net::DBus::Skype::Lite::Command;
 use strict;
 use warnings;
-use feature qw/switch/;
 use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::User;
 use Net::DBus::Skype::Lite::Profile;
@@ -20,57 +19,51 @@ sub parse {
     my ($class, $notification) = @_;
 
     my ($command, $id, $property, $value) = parse_notification($notification);
-    given ($command) {
-        when ('USER') {
-            my $cmd = object('User', id => $id, property => $property, value => $value);
-            c->{trigger}->(c, $cmd, $notification);
-            if (ref(c->{user}) eq 'CODE') {
-                c->{user}->(c, $cmd);
-            }
-            return $cmd;
+    if ($command eq 'USER') {
+        my $cmd = object('User', id => $id, property => $property, value => $value);
+        c->{trigger}->(c, $cmd, $notification);
+        if (ref(c->{user}) eq 'CODE') {
+            c->{user}->(c, $cmd);
         }
-        when ('PROFILE') {
-            my $cmd = object('Profile', property => $id, value => $property);
-            c->{trigger}->(c, $cmd, $notification);
-            if (ref(c->{profile}) eq 'CODE') {
-                c->{profile}->(c, $cmd);
-            }
-            return $cmd;
+        return $cmd;
+    } elsif ($command eq 'PROFILE') {
+        my $cmd = object('Profile', property => $id, value => $property);
+        c->{trigger}->(c, $cmd, $notification);
+        if (ref(c->{profile}) eq 'CODE') {
+            c->{profile}->(c, $cmd);
         }
-        when ('CALL') {
-            my $cmd = object('Call', id => $id, property => $property, value => $value);
-            c->{trigger}->(c, $cmd, $notification);
-            if (ref(c->{call}) eq 'CODE') {
-                c->{call}->(c, $cmd);
-            }
-            my $call = $cmd->call;
-            if ($property eq 'STATUS') {
-                if ($value eq 'INPROGRESS' && ref(c->{call_inprogress}) eq 'CODE') {
-                    return c->{call_inprogress}->(c, $call);
-                } elsif ($value eq 'FINISHED' && ref(c->{call_finished}) eq 'CODE') {
-                    return c->{call_finished}->(c, $call);
-                }
-            }
-            return $cmd;
+        return $cmd;
+    } elsif ($command eq 'CALL') {
+        my $cmd = object('Call', id => $id, property => $property, value => $value);
+        c->{trigger}->(c, $cmd, $notification);
+        if (ref(c->{call}) eq 'CODE') {
+            c->{call}->(c, $cmd);
         }
-        when ('CHATMESSAGE') {
-            my $cmd = object('ChatMessage', id => $id, property => $property, value => $value);
-            c->{trigger}->(c, $cmd, $notification);
-            if (ref(c->{chatmessage}) eq 'CODE') {
-                c->{chatmessage}->(c, $cmd);
+        my $call = $cmd->call;
+        if ($property eq 'STATUS') {
+            if ($value eq 'INPROGRESS' && ref(c->{call_inprogress}) eq 'CODE') {
+                return c->{call_inprogress}->(c, $call);
+            } elsif ($value eq 'FINISHED' && ref(c->{call_finished}) eq 'CODE') {
+                return c->{call_finished}->(c, $call);
             }
-            my $chatmessage = $cmd->chatmessage;
-            if ($property eq 'STATUS') {
-                if ($value eq 'RECEIVED' && ref(c->{chatmessage_received}) eq 'CODE') {
-                    return c->{chatmessage_received}->(c, $chatmessage);
-                }
+        }
+        return $cmd;
+    } elsif ($command eq 'CHATMESSAGE') {
+        my $cmd = object('ChatMessage', id => $id, property => $property, value => $value);
+        c->{trigger}->(c, $cmd, $notification);
+        if (ref(c->{chatmessage}) eq 'CODE') {
+            c->{chatmessage}->(c, $cmd);
+        }
+        my $chatmessage = $cmd->chatmessage;
+        if ($property eq 'STATUS') {
+            if ($value eq 'RECEIVED' && ref(c->{chatmessage_received}) eq 'CODE') {
+                return c->{chatmessage_received}->(c, $chatmessage);
             }
-            return $cmd;
         }
-        default {
-            c->{trigger}->(c, $class, $notification);
-            return $class;
-        }
+        return $cmd;
+    } else {
+        c->{trigger}->(c, $class, $notification);
+        return $class;
     }
 }
 

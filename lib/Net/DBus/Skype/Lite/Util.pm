@@ -6,7 +6,7 @@ our @EXPORT = qw/parse_notification object/;
 
 sub parse_notification {
     my ($notification, $limit) = @_;
-    $limit //= 4;
+    $limit = 4 unless defined $limit;
 
     my @notification = split /\s+/, $notification, $limit;
 }
