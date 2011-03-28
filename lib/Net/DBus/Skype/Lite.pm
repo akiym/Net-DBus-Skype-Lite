@@ -73,6 +73,38 @@ sub call {
     }
 }
 
+sub chat {
+    my $self = shift;
+    my $hook = @_==1 ? $_[0] : {@_};
+
+    if (ref($hook) eq 'HASH') {
+        while (my ($name, $hook) = each %$hook) {
+            $self->{"chat_$name"} = $hook;
+        }
+    } elsif (ref($hook) eq 'CODE') {
+        $self->{chat} = $hook;
+    } else {
+        my $id = $hook;
+        return object('Chat', id => $id);
+    }
+}
+
+sub chatmember {
+    my $self = shift;
+    my $hook = @_==1 ? $_[0] : {@_};
+
+    if (ref($hook) eq 'HASH') {
+        while (my ($name, $hook) = each %$hook) {
+            $self->{"chatmember_$name"} = $hook;
+        }
+    } elsif (ref($hook) eq 'CODE') {
+        $self->{chatmember} = $hook;
+    } else {
+        my $id = $hook;
+        return object('ChatMember', id => $id);
+    }
+}
+
 sub chatmessage {
     my $self = shift;
     my $hook = @_==1 ? $_[0] : {@_};
@@ -89,6 +121,37 @@ sub chatmessage {
     }
 }
 
+sub group {
+    my $self = shift;
+    my $hook = @_==1 ? $_[0] : {@_};
+
+    if (ref($hook) eq 'HASH') {
+        while (my ($name, $hook) = each %$hook) {
+            $self->{"group_$name"} = $hook;
+        }
+    } elsif (ref($hook) eq 'CODE') {
+        $self->{group} = $hook;
+    } else {
+        my $id = $hook;
+        return object('Group', id => $id);
+    }
+}
+
+sub filetransfer {
+    my $self = shift;
+    my $hook = @_==1 ? $_[0] : {@_};
+
+    if (ref($hook) eq 'HASH') {
+        while (my ($name, $hook) = each %$hook) {
+            $self->{"filetransfer_$name"} = $hook;
+        }
+    } elsif (ref($hook) eq 'CODE') {
+        $self->{filetransfer} = $hook;
+    } else {
+        my $id = $hook;
+        return object('FileTransfer', id => $id);
+    }
+}
 sub create_chat {
     my ($self, @handle) = @_;
 
@@ -268,6 +331,24 @@ the same as this
 
 =back
 
+=head2 C<< $skype->chat() >>
+
+    $skype->chat();
+
+    $skype->chat(sub {
+        my ($self, $chat) = @_;
+        # run
+    });
+
+=head2 C<< $skype->chatmember() >>
+
+    $skype->chatmember();
+
+    $skype->chatmember(sub {
+        my ($self, $chatmember) = @_;
+        # run
+    });
+
 =head2 C<< $skype->chatmessage() >>
 
     $skype->chatmessage();
@@ -298,6 +379,24 @@ the same as this
     });
 
 =back
+
+=head2 C<< $skype->group() >>
+
+    $skype->group();
+
+    $skype->group(sub {
+        my ($self, $group) = @_;
+        # run
+    });
+
+=head2 C<< $skype->filetransfer() >>
+
+    $skype->filetransfer();
+
+    $skype->filetransfer(sub {
+        my ($self, $filetransfer) = @_;
+        # run
+    });
 
 =head2 C<< $skype->create_chat() >>
 
