@@ -4,6 +4,7 @@ use warnings;
 use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Chat;
 use Net::DBus::Skype::Lite::Util;
+use Class::Trigger;
 
 sub new {
     my ($class, %args) = @_;

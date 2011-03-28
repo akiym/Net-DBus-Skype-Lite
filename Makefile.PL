@@ -7,6 +7,7 @@ license 'perl';
 
 requires(
     'Net::DBus' => '0.33.6',
+    'Class::Trigger' => '0.14',
 );
 
 tests 't/*.t';

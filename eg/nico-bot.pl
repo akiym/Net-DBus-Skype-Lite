@@ -19,25 +19,26 @@ sub get_info {
     my $message = "$thumb->{title}\n$thumb->{description}";
 }
 
-my $skype = Net::DBus::Skype::Lite->new(
-    notify => sub {
-        my ($self, $notify) = @_;
-        debugf($notify);
-    }
-);
-$skype->chatmessage(received => sub {
-    my ($self, $msg) = @_;
-    if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
-        my $message = get_info($video_id);
-        return unless $message;
-        infof($msg->from_dispname . ': ' . $msg->body);
-        if ($msg->body =~ /@俺/) {
-            $self->create_chat($msg->from_handle)->send_message($message);
-        } else {
-            $self->send_message($msg->chatname, $message);
+my $skype = Net::DBus::Skype::Lite->new(notify => sub { debugf($_[1]) });
+$skype->chatmessage(
+    status => sub {
+        my ($msg, $status) = @_;
+        if ($status eq 'RECEIVED') {
+            my $body = $msg->body;
+            if (my ($video_id) = $body =~ /([sn]m\d+)/) {
+                my $message = get_info($video_id);
+                return unless $message;
+                infof($msg->from_dispname . ': ' . $body);
+                if ($msg->body =~ /@俺/) {
+                    my $chat = $skype->create_chat($msg->from_handle);
+                    $chat->send_message($message);
+                } else {
+                    $skype->send_message($msg->chatname, $message);
+                }
+            }
         }
     }
-});
+);
 
 my $reactor = Net::DBus::Reactor->main();
 $reactor->run();

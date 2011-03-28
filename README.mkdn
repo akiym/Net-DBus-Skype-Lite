@@ -25,7 +25,7 @@ Linuxで使えるSkype API wrapper
 
     my $skype = Net::DBus::Skype::Lite->new();
     $skype->chatmessage(
-        received => sub {
+        status => sub {
             my ($self, $msg) = @_;
             if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
                 my $message = get_info($video_id);

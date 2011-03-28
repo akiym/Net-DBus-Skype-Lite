@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Net::DBus::Skype::Lite::API;
 use Net::DBus::Skype::Lite::Command;
-use Net::DBus::Skype::Lite::Util;
+use Net::DBus::Skype::Lite::Util qw/parse_notification object add_trigger/;
 
 {
     our $CONTEXT;
@@ -16,11 +16,10 @@ sub new {
 
     my $self = bless {
         name => 'Net::DBus::Skype::Lite',
-        notify => $args{notify} || sub {},
-        invoke => $args{invoke} || sub {},
-        trigger => sub {},
     }, $class;
     $class->set_context($self);
+    add_trigger('API', notify => $args{notify}) if exists $args{notify};
+    add_trigger('API', invoke => $args{invoke}) if exists $args{invoke};
     my $api = Net::DBus::Skype::Lite::API->new();
     $self->{api} = $api;
     $self;
@@ -28,130 +27,118 @@ sub new {
 
 sub api { shift->{api}->Invoke(@_) }
 
-sub trigger {
-    my ($self, $hook) = @_;
-
-    $self->{trigger} = $hook;
-}
-
 sub user {
     my $self = shift;
-    my $hook = @_==1 ? $_[0] : {@_};
-
-    if (ref($hook) eq 'CODE') {
-        $self->{user} = $hook;
+    if (@_ == 1) {
+        my $param = shift;
+        if (ref($param) eq 'CODE') {
+            add_trigger('User', user => $param);
+        } else {
+            return object('User', id => $param);
+        }
     } else {
-        my $id = $hook;
-        return object('User', id => $id);
+        add_trigger('User', @_);
     }
 }
 
 sub profile {
     my $self = shift;
-    my $hook = @_==1 ? $_[0] : {@_};
-
-    if (ref($hook) eq 'CODE') {
-        $self->{profile} = $hook;
+    if (@_ == 1) {
+        my $param = shift;
+        if (ref($param) eq 'CODE') {
+            add_trigger('Profile', profile => $param);
+        } else {
+            return object('Profile');
+        }
     } else {
-        return object('Profile');
+        add_trigger('Profile', @_);
     }
 }
 
 sub call {
     my $self = shift;
-    my $hook = @_==1 ? $_[0] : {@_};
-
-    if (ref($hook) eq 'HASH') {
-        while (my ($name, $hook) = each %$hook) {
-            $self->{"call_$name"} = $hook;
+    if (@_ == 1) {
+        my $param = shift;
+        if (ref($param) eq 'CODE') {
+            add_trigger('Call', call => $param);
+        } else {
+            return object('Call', id => $param);
         }
-    } elsif (ref($hook) eq 'CODE') {
-        $self->{call} = $hook;
     } else {
-        my $id = $hook;
-        return object('Call', id => $id);
+        add_trigger('Call', @_);
     }
 }
 
 sub chat {
     my $self = shift;
-    my $hook = @_==1 ? $_[0] : {@_};
-
-    if (ref($hook) eq 'HASH') {
-        while (my ($name, $hook) = each %$hook) {
-            $self->{"chat_$name"} = $hook;
+    if (@_ == 1) {
+        my $param = shift;
+        if (ref($param) eq 'CODE') {
+            add_trigger('Chat', chat => $param);
+        } else {
+            return object('Chat', id => $param);
         }
-    } elsif (ref($hook) eq 'CODE') {
-        $self->{chat} = $hook;
     } else {
-        my $id = $hook;
-        return object('Chat', id => $id);
+        add_trigger('Chat', @_);
     }
 }
 
 sub chatmember {
     my $self = shift;
-    my $hook = @_==1 ? $_[0] : {@_};
-
-    if (ref($hook) eq 'HASH') {
-        while (my ($name, $hook) = each %$hook) {
-            $self->{"chatmember_$name"} = $hook;
+    if (@_ == 1) {
+        my $param = shift;
+        if (ref($param) eq 'CODE') {
+            add_trigger('ChatMember', chatmember => $param);
+        } else {
+            return object('ChatMember', id => $param);
         }
-    } elsif (ref($hook) eq 'CODE') {
-        $self->{chatmember} = $hook;
     } else {
-        my $id = $hook;
-        return object('ChatMember', id => $id);
+        add_trigger('ChatMember', @_);
     }
 }
 
 sub chatmessage {
     my $self = shift;
-    my $hook = @_==1 ? $_[0] : {@_};
-
-    if (ref($hook) eq 'HASH') {
-        while (my ($name, $hook) = each %$hook) {
-            $self->{"chatmessage_$name"} = $hook;
+    if (@_ == 1) {
+        my $param = shift;
+        if (ref($param) eq 'CODE') {
+            add_trigger('ChatMessage', chatmessage => $param);
+        } else {
+            return object('ChatMessage', id => $param);
         }
-    } elsif (ref($hook) eq 'CODE') {
-        $self->{chatmessage} = $hook;
     } else {
-        my $id = $hook;
-        return object('ChatMessage', id => $id);
+        add_trigger('ChatMessage', @_);
     }
 }
 
 sub group {
     my $self = shift;
-    my $hook = @_==1 ? $_[0] : {@_};
-
-    if (ref($hook) eq 'HASH') {
-        while (my ($name, $hook) = each %$hook) {
-            $self->{"group_$name"} = $hook;
+    if (@_ == 1) {
+        my $param = shift;
+        if (ref($param) eq 'CODE') {
+            add_trigger('Group', group => $param);
+        } else {
+            return object('Group', id => $param);
         }
-    } elsif (ref($hook) eq 'CODE') {
-        $self->{group} = $hook;
     } else {
-        my $id = $hook;
-        return object('Group', id => $id);
+        add_trigger('Group', @_);
     }
 }
 
 sub filetransfer {
     my $self = shift;
-    my $hook = @_==1 ? $_[0] : {@_};
-
-    if (ref($hook) eq 'HASH') {
-        while (my ($name, $hook) = each %$hook) {
-            $self->{"filetransfer_$name"} = $hook;
+    if (@_ == 1) {
+        my $param = shift;
+        if (ref($param) eq 'CODE') {
+            add_trigger('FileTransfer', filetransfer => $param);
+        } else {
+            return object('FileTransfer', id => $param);
         }
-    } elsif (ref($hook) eq 'CODE') {
-        $self->{filetransfer} = $hook;
     } else {
-        my $id = $hook;
-        return object('FileTransfer', id => $id);
+        add_trigger('FileTransfer', @_);
     }
 }
+
 sub create_chat {
     my ($self, @handle) = @_;
 
@@ -259,6 +246,8 @@ Net::DBus::Skype::Lite -
 
 =head2 C<< $skype->trigger() >>
 
+    oops! this method is deprecated!
+
     $skype->trigger(sub {
         my ($self, $res, $notification) = @_;
         # run
@@ -269,7 +258,7 @@ Net::DBus::Skype::Lite -
     $skype->user();
 
     $skype->user(sub {
-        my ($self, $user) = @_;
+        my ($user, $notification) = @_;
         # run
     });
 
@@ -278,7 +267,7 @@ Net::DBus::Skype::Lite -
     $skype->profile();
 
     $skype->profile(sub {
-        my ($self, $profile) = @_;
+        my ($profile, $notification) = @_;
         # run
     });
 
@@ -287,47 +276,20 @@ Net::DBus::Skype::Lite -
     $skype->call();
 
     $skype->call(sub {
-        my ($self, $call) = @_;
+        my ($call, $notification) = @_;
         # run
     });
 
 =over 4
 
-=item inprogress
+=item status
 
     $skype->call(
-        inprogress => sub {
-            my ($self, $call) = @_;
+        status => sub {
+            my ($call, $status) = @_;
             # run
         }
     );
-
-the same as this
-
-    $skype->call(sub {
-        my ($self, $call) = @_;
-        if ($call->{property} eq 'STATUS' && $call->{value} eq 'INPROGRESS') {
-            # run
-        }
-    });
-
-=item finished
-
-    $skype->call(
-        finished => sub {
-            my ($self, $call) = @_;
-            # run
-        }
-    );
-
-the same as this
-
-    $skype->call(sub {
-        my ($self, $call) = @_;
-        if ($call->{property} eq 'STATUS' && $call->{value} eq 'FINISHED') {
-            # run
-        }
-    });
 
 =back
 
@@ -336,7 +298,7 @@ the same as this
     $skype->chat();
 
     $skype->chat(sub {
-        my ($self, $chat) = @_;
+        my ($chat, $notification) = @_;
         # run
     });
 
@@ -345,7 +307,7 @@ the same as this
     $skype->chatmember();
 
     $skype->chatmember(sub {
-        my ($self, $chatmember) = @_;
+        my ($chatmember, $notification) = @_;
         # run
     });
 
@@ -354,29 +316,20 @@ the same as this
     $skype->chatmessage();
 
     $skype->chatmessage(sub {
-        my ($self, $chatmessage) = @_;
+        my ($chatmessage, $notification) = @_;
         # run
     });
 
 =over 4
 
-=item received
+=item status
 
     $skype->chatmessage(
-        received => sub {
-            my ($self, $chatmessage) = @_;
+        status => sub {
+            my ($chatmessage, $status) = @_;
             # run
         }
     );
-
-the same as this
-
-    $skype->chatmessage(sub {
-        my ($self, $chatmessage) = @_;
-        if ($chatmessage->{property} eq 'STATUS' && $chatmessage->{value} eq 'RECEIVED') {
-            # run
-        }
-    });
 
 =back
 
@@ -385,7 +338,7 @@ the same as this
     $skype->group();
 
     $skype->group(sub {
-        my ($self, $group) = @_;
+        my ($group, $notification) = @_;
         # run
     });
 
@@ -394,7 +347,7 @@ the same as this
     $skype->filetransfer();
 
     $skype->filetransfer(sub {
-        my ($self, $filetransfer) = @_;
+        my ($filetransfer, $notification) = @_;
         # run
     });
 

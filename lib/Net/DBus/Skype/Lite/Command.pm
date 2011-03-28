@@ -8,8 +8,8 @@ use Net::DBus::Skype::Lite::Call;
 use Net::DBus::Skype::Lite::Chat;
 use Net::DBus::Skype::Lite::ChatMember;
 use Net::DBus::Skype::Lite::ChatMessage;
-use Net::DBus::Skype::Lite::VoiceMail;
-use Net::DBus::Skype::Lite::SMS;
+#use Net::DBus::Skype::Lite::VoiceMail;
+#use Net::DBus::Skype::Lite::SMS;
 #use Net::DBus::Skype::Lite::Application;
 use Net::DBus::Skype::Lite::Group;
 use Net::DBus::Skype::Lite::FileTransfer;
@@ -20,49 +20,40 @@ sub parse {
 
     my ($command, $id, $property, $value) = parse_notification($notification);
     if ($command eq 'USER') {
-        my $cmd = object('User', id => $id, property => $property, value => $value);
-        c->{trigger}->(c, $cmd, $notification);
-        if (ref(c->{user}) eq 'CODE') {
-            c->{user}->(c, $cmd);
-        }
-        return $cmd;
+        my $user = object(
+            'User',
+            id => $id, property => $property, value => $value,
+        );
+        $user->call_trigger(user => $notification);
+        return $user;
     } elsif ($command eq 'PROFILE') {
-        my $cmd = object('Profile', property => $id, value => $property);
-        c->{trigger}->(c, $cmd, $notification);
-        if (ref(c->{profile}) eq 'CODE') {
-            c->{profile}->(c, $cmd);
-        }
-        return $cmd;
+        my $profile = object(
+            'Profile',
+            property => $id, value => $property,
+        );
+        $profile->call_trigger(profile => $notification);
+        return $profile;
     } elsif ($command eq 'CALL') {
-        my $cmd = object('Call', id => $id, property => $property, value => $value);
-        c->{trigger}->(c, $cmd, $notification);
-        if (ref(c->{call}) eq 'CODE') {
-            c->{call}->(c, $cmd);
-        }
-        my $call = $cmd->call;
+        my $call = object(
+            'Call',
+            id => $id, property => $property, value => $value,
+        );
+        $call->call_trigger(call => $notification);
         if ($property eq 'STATUS') {
-            if ($value eq 'INPROGRESS' && ref(c->{call_inprogress}) eq 'CODE') {
-                return c->{call_inprogress}->(c, $call);
-            } elsif ($value eq 'FINISHED' && ref(c->{call_finished}) eq 'CODE') {
-                return c->{call_finished}->(c, $call);
-            }
+            $call->call_trigger(status => $value);
         }
-        return $cmd;
+        return $call;
     } elsif ($command eq 'CHATMESSAGE') {
-        my $cmd = object('ChatMessage', id => $id, property => $property, value => $value);
-        c->{trigger}->(c, $cmd, $notification);
-        if (ref(c->{chatmessage}) eq 'CODE') {
-            c->{chatmessage}->(c, $cmd);
-        }
-        my $chatmessage = $cmd->chatmessage;
+        my $chatmessage = object(
+            'ChatMessage',
+            id => $id, property => $property, value => $value,
+        );
+        $chatmessage->call_trigger(chatmessage => $notification);
         if ($property eq 'STATUS') {
-            if ($value eq 'RECEIVED' && ref(c->{chatmessage_received}) eq 'CODE') {
-                return c->{chatmessage_received}->(c, $chatmessage);
-            }
+            return $chatmessage->call_trigger(status => $value);
         }
-        return $cmd;
+        return $chatmessage;
     } else {
-        c->{trigger}->(c, $class, $notification);
         return $class;
     }
 }

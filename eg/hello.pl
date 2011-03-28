@@ -9,10 +9,11 @@ use Log::Minimal;
 
 my $skype = Net::DBus::Skype::Lite->new();
 $skype->user(sub {
-    my ($self, $res) = @_;
-    if ($res->{property} eq 'ONLINESTATUS' && $res->{value} eq 'ONLINE') {
-        infof($res->{id});
-        $self->create_chat($res->{id})->send_message('こんにちワン');
+    my ($user) = @_;
+    if ($user->{property} eq 'ONLINESTATUS' && $user->{value} eq 'ONLINE') {
+        infof($user->{id});
+        my $chat = $skype->create_chat($user->{id});
+        $chat->send_message('こんにちワン');
     }
 });
 

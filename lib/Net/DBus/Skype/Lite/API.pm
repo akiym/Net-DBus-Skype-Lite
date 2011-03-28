@@ -5,6 +5,7 @@ use parent qw/Net::DBus::Object/;
 use Net::DBus;
 use Net::DBus::Skype::Lite::Context;
 use Net::DBus::Skype::Lite::Command;
+use Class::Trigger;
 
 sub new {
     my ($class) = @_;
@@ -27,7 +28,7 @@ sub new {
 sub Notify {
     my ($self, $notification) = @_;
 
-    c->{notify}->(c, $notification);
+    $self->call_trigger(notify => $notification);
     Net::DBus::Skype::Lite::Command->parse($notification);
     return 0;
 }
@@ -36,7 +37,7 @@ sub Invoke {
     my ($self, $notification) = @_;
 
     my $res = $self->{invoke}->Invoke($notification);
-    c->{invoke}->(c, $notification, $res);
+    $self->call_trigger(invoke => $notification, $res);
     $res;
 }
 
