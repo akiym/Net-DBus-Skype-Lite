@@ -29,12 +29,16 @@ sub api { shift->{api}->Invoke(@_) }
 
 sub user {
     my $self = shift;
-    if (@_ == 1) {
+    if (@_ <= 1) {
         my $param = shift;
         if (ref($param) eq 'CODE') {
             add_trigger('User', user => $param);
         } else {
-            return object('User', id => $param);
+            if (defined $param) {
+                return object('User', id => $param);
+            } else {
+                return object('User');
+            }
         }
     } else {
         add_trigger('User', @_);
@@ -43,7 +47,7 @@ sub user {
 
 sub profile {
     my $self = shift;
-    if (@_ == 1) {
+    if (@_ <= 1) {
         my $param = shift;
         if (ref($param) eq 'CODE') {
             add_trigger('Profile', profile => $param);
@@ -57,12 +61,16 @@ sub profile {
 
 sub call {
     my $self = shift;
-    if (@_ == 1) {
+    if (@_ <= 1) {
         my $param = shift;
         if (ref($param) eq 'CODE') {
             add_trigger('Call', call => $param);
         } else {
-            return object('Call', id => $param);
+            if (defined $param) {
+                return object('Call', id => $param);
+            } else {
+                return object('Call');
+            }
         }
     } else {
         add_trigger('Call', @_);
@@ -71,12 +79,16 @@ sub call {
 
 sub chat {
     my $self = shift;
-    if (@_ == 1) {
+    if (@_ <= 1) {
         my $param = shift;
         if (ref($param) eq 'CODE') {
             add_trigger('Chat', chat => $param);
         } else {
-            return object('Chat', id => $param);
+            if (defined $param) {
+                return object('Chat', id => $param);
+            } else {
+                return object('Chat');
+            }
         }
     } else {
         add_trigger('Chat', @_);
@@ -85,12 +97,16 @@ sub chat {
 
 sub chatmember {
     my $self = shift;
-    if (@_ == 1) {
+    if (@_ <= 1) {
         my $param = shift;
         if (ref($param) eq 'CODE') {
             add_trigger('ChatMember', chatmember => $param);
         } else {
-            return object('ChatMember', id => $param);
+            if (defined $param) {
+                return object('ChatMember', id => $param);
+            } else {
+                return object('ChatMember');
+            }
         }
     } else {
         add_trigger('ChatMember', @_);
@@ -99,12 +115,16 @@ sub chatmember {
 
 sub chatmessage {
     my $self = shift;
-    if (@_ == 1) {
+    if (@_ <= 1) {
         my $param = shift;
         if (ref($param) eq 'CODE') {
             add_trigger('ChatMessage', chatmessage => $param);
         } else {
-            return object('ChatMessage', id => $param);
+            if (defined $param) {
+                return object('ChatMessage', id => $param);
+            } else {
+                return object('ChatMessage');
+            }
         }
     } else {
         add_trigger('ChatMessage', @_);
@@ -128,12 +148,16 @@ sub message_received {
 
 sub group {
     my $self = shift;
-    if (@_ == 1) {
+    if (@_ <= 1) {
         my $param = shift;
         if (ref($param) eq 'CODE') {
             add_trigger('Group', group => $param);
         } else {
-            return object('Group', id => $param);
+            if (defined $param) {
+                return object('Group', id => $param);
+            } else {
+                return object('');
+            }
         }
     } else {
         add_trigger('Group', @_);
@@ -142,12 +166,16 @@ sub group {
 
 sub filetransfer {
     my $self = shift;
-    if (@_ == 1) {
+    if (@_ <= 1) {
         my $param = shift;
         if (ref($param) eq 'CODE') {
             add_trigger('FileTransfer', filetransfer => $param);
         } else {
-            return object('FileTransfer', id => $param);
+            if (defined $param) {
+                return object('FileTransfer', id => $param);
+            } else {
+                return object('');
+            }
         }
     } else {
         add_trigger('FileTransfer', @_);
