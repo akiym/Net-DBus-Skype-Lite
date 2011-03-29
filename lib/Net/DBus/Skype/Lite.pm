@@ -201,44 +201,127 @@ sub friends {
     my ($self) = @_;
 
     my $res = $self->api(qq{SEARCH FRIENDS});
-    my ($command, $friend) = parse_notification($res, 2);
-    my @friend = split ', ', $friend;
-    for my $id (@friend) {
-        $id = object('User', id => $id);
+    my ($command, $friends) = parse_notification($res, 2);
+    my @friends = split ', ', $friends;
+    for my $friend (@friends) {
+        $friend = object('User', id => $friend);
     }
-    \@friend;
+    \@friends;
+}
+
+sub calls {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH CALLS});
+    my ($command, $calls) = parse_notification($res, 2);
+    my @calls = split ', ', $calls;
+    for my $call (@calls) {
+        $call = object('Call', id => $call);
+    }
+    \@calls;
+}
+
+sub active_calls {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH ACTIVECALLS});
+    my ($command, $calls) = parse_notification($res, 2);
+    my @calls = split ', ', $calls;
+    for my $call (@calls) {
+        $call = object('Call', id => $call);
+    }
+    \@calls;
+}
+
+sub missed_calls {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH MISSEDCALLS});
+    my ($command, $calls) = parse_notification($res, 2);
+    my @calls = split ', ', $calls;
+    for my $call (@calls) {
+        $call = object('Call', id => $call);
+    }
+    \@calls;
+}
+
+sub active_chats {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH ACTIVECHATS});
+    my ($command, $chats) = parse_notification($res, 2);
+    my @chats = split ', ', $chats;
+    for my $chat (@chats) {
+        $chat = object('Chat', id => $chat);
+    }
+    \@chats;
+}
+
+sub missed_chats {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH MISSEDCHATS});
+    my ($command, $chats) = parse_notification($res, 2);
+    my @chats = split ', ', $chats;
+    for my $chat (@chats) {
+        $chat = object('Chat', id => $chat);
+    }
+    \@chats;
 }
 
 sub recent_chats {
     my ($self) = @_;
 
     my $res = $self->api(qq{SEARCH RECENTCHATS});
-    my ($command, $chatname) = parse_notification($res, 2);
-    my @chatname = split ', ', $chatname;
-    for my $id (@chatname) {
-        $id = object('Chat', id => $id);
+    my ($command, $chats) = parse_notification($res, 2);
+    my @chats = split ', ', $chats;
+    for my $chat (@chats) {
+        $chat = object('Chat', id => $chat);
     }
-    \@chatname;
+    \@chats;
 }
 
 sub recent_chat {
     my ($self) = @_;
 
-    my $chatname = $self->recent_chats;
-    $chatname->[0];
+    my $chats = $self->recent_chats;
+    $chats->[0];
+}
+
+sub bookmarked_chats {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH BOOKMARKEDCHATS});
+    my ($command, $chats) = parse_notification($res, 2);
+    my @chats = split ', ', $chats;
+    for my $chat (@chats) {
+        $chat = object('Chat', id => $chat);
+    }
+    \@chats;
 }
 
 sub groups {
     my ($self) = @_;
 
     my $res = $self->api(qq{SEARCH GROUPS});
-    my ($command, $group) = parse_notification($res, 2);
-    my @group = split ', ', $group;
-    for my $id (@group) {
-        # when module is loaded?
-        $id = object('Group', id => $id);
+    my ($command, $groups) = parse_notification($res, 2);
+    my @groups = split ', ', $groups;
+    for my $group (@groups) {
+        $group = object('Group', id => $group);
     }
-    \@group;
+    \@groups;
+}
+
+sub active_filetransfers {
+    my ($self) = @_;
+
+    my $res = $self->api(qq{SEARCH ACTIVEFILETRANSFERS});
+    my ($command, $filetransfers) = parse_notification($res, 2);
+    my @filetransfers = split ', ', $filetransfers;
+    for my $filetransfer (@filetransfers) {
+        $filetransfer = object('FileTransfer', id => $filetransfer);
+    }
+    \@filetransfers;
 }
 
 1;
