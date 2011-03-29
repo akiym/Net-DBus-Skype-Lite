@@ -156,7 +156,7 @@ sub group {
             if (defined $param) {
                 return object('Group', id => $param);
             } else {
-                return object('');
+                return object('Group');
             }
         }
     } else {
@@ -174,7 +174,7 @@ sub filetransfer {
             if (defined $param) {
                 return object('FileTransfer', id => $param);
             } else {
-                return object('');
+                return object('FileTransfer');
             }
         }
     } else {
