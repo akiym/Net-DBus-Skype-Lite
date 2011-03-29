@@ -5,7 +5,7 @@ Linuxで使えるSkype API wrapper
 
 ### 例: 発言を追いかけて、ニコニコ動画の動画概要を通知するボットを書く
 
-たったの30行で書けます。
+たったの28行で書けます。
 
     use strict;
     use warnings;
@@ -24,16 +24,14 @@ Linuxで使えるSkype API wrapper
     }
 
     my $skype = Net::DBus::Skype::Lite->new();
-    $skype->chatmessage(
-        status => sub {
-            my ($self, $msg) = @_;
-            if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
-                my $message = get_info($video_id);
-                return unless $message;
-                $self->send_message($msg->chatname, $message);
-            }
+    $skype->message_received(sub {
+        my ($msg) = @_;
+        if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
+            my $message = get_info($video_id);
+            return unless $message;
+            $skype->send_message($msg->chatname, $message);
         }
-    );
+    });
 
     my $reactor = Net::DBus::Reactor->main();
     $reactor->run();

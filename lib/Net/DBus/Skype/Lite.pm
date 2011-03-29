@@ -111,6 +111,21 @@ sub chatmessage {
     }
 }
 
+# alias
+sub message_received {
+    my ($self, $code) = @_;
+
+    my $wrap = sub {
+        my ($chatmessage, $status) = @_;
+        if ($status eq 'RECEIVED') {
+            return $code->($chatmessage);
+        } else {
+            return sub {};
+        }
+    };
+    add_trigger('ChatMessage', status => $wrap);
+}
+
 sub group {
     my $self = shift;
     if (@_ == 1) {
@@ -145,7 +160,7 @@ sub create_chat {
     my $handle = join ', ', @handle;
     my $res = $self->api(qq{CHAT CREATE $handle});
     my ($command, $id, $property, $value) = parse_notification($res);
-    object('Chat', id => $id, property => $property, value => $value);
+    return object('Chat', id => $id, property => $property, value => $value);
 }
 
 sub send_message {
@@ -332,6 +347,24 @@ Net::DBus::Skype::Lite -
     );
 
 =back
+
+=head2 C<< $skype->message_received() >>
+
+    $skype->message_received(sub {
+        my ($chatmessage) = @_;
+        # run
+    });
+
+the same as this
+
+    $skype->chatmessage(
+        status => sub {
+            my ($chatmessage, $status) = @_;
+            if ($status eq 'RECEIVED') {
+                # run
+            }
+        }
+    );
 
 =head2 C<< $skype->group() >>
 

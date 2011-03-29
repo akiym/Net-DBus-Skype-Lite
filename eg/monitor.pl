@@ -11,16 +11,12 @@ my $skype = Net::DBus::Skype::Lite->new(
     notify => sub { debugf("NOTIFY: $_[1]") },
     invoke => sub { debugf("INVOKE: $_[1]") },
 );
-$skype->chatmessage(
-    status => sub {
-        my ($msg, $status) = @_;
-        if ($status eq 'RECEIVED') {
-            my $dispname = $msg->from_dispname;
-            my $body = $msg->body;
-            infof("$dispname: $body");
-        }
-    }
-);
+$skype->message_received(sub {
+    my ($msg) = @_;
+    my $dispname = $msg->from_dispname;
+    my $body = $msg->body;
+    infof("$dispname: $body");
+});
 
 my $reactor = Net::DBus::Reactor->main();
 $reactor->run();
