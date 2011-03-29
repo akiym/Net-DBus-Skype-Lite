@@ -17,7 +17,7 @@ sub new {
 
 sub call { shift }
 
-sub get_call {
+sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};
 
@@ -27,183 +27,153 @@ sub get_call {
 
 sub timestamp {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'TIMESTAMP');
+    $self->property($id, 'TIMESTAMP');
 }
 
 sub partner_handle {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'PARTNER_HANDLE');
+    $self->property($id, 'PARTNER_HANDLE');
 }
 
 sub partner_dispname {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'PARTNER_DISPNAME');
+    $self->property($id, 'PARTNER_DISPNAME');
 }
 
 sub target_identity {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'TARGET_IDENTITY');
+    $self->property($id, 'TARGET_IDENTITY');
 }
 
 sub conf_id {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'CONF_ID');
+    $self->property($id, 'CONF_ID');
 }
 
 sub type {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'TYPE');
+    $self->property($id, 'TYPE');
 }
 
 sub status {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'STATUS');
+    $self->property($id, 'STATUS');
 }
 
 sub video_status {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'VIDEO_STATUS');
+    $self->property($id, 'VIDEO_STATUS');
 }
 
 sub video_send_status {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'VIDEO_SEND_STATUS');
+    $self->property($id, 'VIDEO_SEND_STATUS');
 }
 
 sub failurereason {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'FAILUREREASON');
+    $self->property($id, 'FAILUREREASON');
 }
 
 sub subject {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'SUBJECT');
+    $self->property($id, 'SUBJECT');
 }
 
 sub pstn_number {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'PSTN_NUMBER');
+    $self->property($id, 'PSTN_NUMBER');
 }
 
 sub duration {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'DURATION');
+    $self->property($id, 'DURATION');
 }
 
 sub pstn_status {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'PSTN_STATUS');
+    $self->property($id, 'PSTN_STATUS');
 }
 
 sub conf_participants_count {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'CONF_PARTICIPANTS_COUNT');
+    $self->property($id, 'CONF_PARTICIPANTS_COUNT');
 }
 
 sub conf_participant {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'CONF_PARTICIPANT');
+    $self->property($id, 'CONF_PARTICIPANT');
 }
 
 sub vm_duration {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'VM_DURATION');
+    $self->property($id, 'VM_DURATION');
 }
 
 sub vm_allowed_duration {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'VM_ALLOWED_DURATION');
+    $self->property($id, 'VM_ALLOWED_DURATION');
 }
 
 sub rate {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'RATE');
+    $self->property($id, 'RATE');
 }
 
 sub rate_currency {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'RATE_CURRENCY');
+    $self->property($id, 'RATE_CURRENCY');
 }
 
 sub rate_precision {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'RATE_PRECISION');
+    $self->property($id, 'RATE_PRECISION');
 }
 
 sub input {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'INPUT');
+    $self->property($id, 'INPUT');
 }
 
 sub output {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'OUTPUT');
+    $self->property($id, 'OUTPUT');
 }
 
 sub capture_mic {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'CAPTURE_MIC');
+    $self->property($id, 'CAPTURE_MIC');
 }
 
 sub vaa_input_status {
     my ($self, $id) = @_;
-
-    my $res = $self->get_call($id, 'VAA_INPUT_STATUS');
+    my $res = $self->property($id, 'VAA_INPUT_STATUS');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub forwarded_by {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'FORWARDED_BY');
+    $self->property($id, 'FORWARDED_BY');
 }
 
 sub transfer_active {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'TRANSFER_ACTIVE');
+    $self->property($id, 'TRANSFER_ACTIVE');
 }
 
 sub transfer_status {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'TRANSFER_STATUS');
+    $self->property($id, 'TRANSFER_STATUS');
 }
 
 sub transferred_by {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'TRANSFERRED_BY');
+    $self->property($id, 'TRANSFERRED_BY');
 }
 
 sub transferred_to {
     my ($self, $id) = @_;
-
-    $self->get_call($id, 'TRANSFERRED_TO');
+    $self->property($id, 'TRANSFERRED_TO');
 }
 
 1;

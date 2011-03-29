@@ -16,7 +16,7 @@ sub new {
 
 sub sms { shift }
 
-sub get_sms {
+sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};
 
@@ -26,75 +26,63 @@ sub get_sms {
 
 sub body {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'BODY');
+    $self->property($id, 'BODY');
 }
 
 sub type {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'TYPE');
+    $self->property($id, 'TYPE');
 }
 
 sub status {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'STATUS');
+    $self->property($id, 'STATUS');
 }
 
 sub failurereason {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'FAILUREREASON');
+    $self->property($id, 'FAILUREREASON');
 }
 
 sub is_failed_unseen {
     my ($self, $id) = @_;
-
-    my $res = $self->get_sms($id, 'IS_FAILED_UNSEEN');
+    my $res = $self->property($id, 'IS_FAILED_UNSEEN');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub timestamp {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'TIMESTAMP');
+    $self->property($id, 'TIMESTAMP');
 }
 
 sub price {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'PRICE');
+    $self->property($id, 'PRICE');
 }
 
 sub price_precision {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'PRICE_PRECISION');
+    $self->property($id, 'PRICE_PRECISION');
 }
 
 sub price_currency {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'PRICE_CURRENCY');
+    $self->property($id, 'PRICE_CURRENCY');
 }
 
 sub reply_to_number {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'REPLY_TO_NUMBER');
+    $self->property($id, 'REPLY_TO_NUMBER');
 }
 
 sub target_numbers {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'TARGET_NUMBERS');
+    $self->property($id, 'TARGET_NUMBERS');
 }
 
 sub target_statuses {
     my ($self, $id) = @_;
-
-    $self->get_sms($id, 'TARGET_STATUSES');
+    $self->property($id, 'TARGET_STATUSES');
 }
 
 1;

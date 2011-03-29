@@ -18,7 +18,7 @@ sub new {
 
 sub chatmessage { shift }
 
-sub get_chatmessage {
+sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};
 
@@ -28,93 +28,78 @@ sub get_chatmessage {
 
 sub timestamp {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'TIMESTAMP');
+    $self->property($id, 'TIMESTAMP');
 }
 
 sub from_handle {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'FROM_HANDLE');
+    $self->property($id, 'FROM_HANDLE');
 }
 
 sub from_dispname {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'FROM_DISPNAME');
+    $self->property($id, 'FROM_DISPNAME');
 }
 
 sub type {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'TYPE');
+    $self->property($id, 'TYPE');
 }
 
 sub status {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'STATUS');
+    $self->property($id, 'STATUS');
 }
 
 sub leavereason {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'LEAVEREASON');
+    $self->property($id, 'LEAVEREASON');
 }
 
 sub chatname {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'CHATNAME');
+    $self->property($id, 'CHATNAME');
 }
 
 sub users {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'USERS');
+    $self->property($id, 'USERS');
 }
 
 sub is_editable {
     my ($self, $id) = @_;
-
-    my $res = $self->get_chatmessage($id, 'IS_EDITABLE');
+    my $res = $self->property($id, 'IS_EDITABLE');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub edited_by {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'EDITED_BY');
+    $self->property($id, 'EDITED_BY');
 }
 
 sub edited_timestamp {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'EDITED_TIMESTAMP');
+    $self->property($id, 'EDITED_TIMESTAMP');
 }
 
 sub options {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'OPTIONS');
+    $self->property($id, 'OPTIONS');
 }
 
 sub role {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'ROLE');
+    $self->property($id, 'ROLE');
 }
 
 sub seen {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'SEEN');
+    $self->property($id, 'SEEN');
 }
 
 sub body {
     my ($self, $id) = @_;
-
-    $self->get_chatmessage($id, 'BODY');
+    $self->property($id, 'BODY');
 }
 
 1;

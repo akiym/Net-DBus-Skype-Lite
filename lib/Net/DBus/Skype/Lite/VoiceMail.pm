@@ -16,7 +16,7 @@ sub new {
 
 sub voicemail { shift }
 
-sub get_voicemail {
+sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};
 
@@ -26,74 +26,62 @@ sub get_voicemail {
 
 sub type {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'TYPE');
+    $self->property($id, 'TYPE');
 }
 
 sub partner_handle {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'PARTNER_HANDLE');
+    $self->property($id, 'PARTNER_HANDLE');
 }
 
 sub partner_dispname {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'PARTNER_DISPNAME');
+    $self->property($id, 'PARTNER_DISPNAME');
 }
 
 sub status {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'STATUS');
+    $self->property($id, 'STATUS');
 }
 
 sub failurereason {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'FAILUREREASON');
+    $self->property($id, 'FAILUREREASON');
 }
 
 sub subject {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'SUBJECT');
+    $self->property($id, 'SUBJECT');
 }
 
 sub timestamp {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'TIMESTAMP');
+    $self->property($id, 'TIMESTAMP');
 }
 
 sub duration {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'DURATION');
+    $self->property($id, 'DURATION');
 }
 
 sub allowed_duration {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'ALLOWED_DURATION');
+    $self->property($id, 'ALLOWED_DURATION');
 }
 
 sub input {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'INPUT');
+    $self->property($id, 'INPUT');
 }
 
 sub output {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'OUTPUT');
+    $self->property($id, 'OUTPUT');
 }
 
 sub capture_mic {
     my ($self, $id) = @_;
-
-    $self->get_voicemail($id, 'CAPTURE_MIC');
+    $self->property($id, 'CAPTURE_MIC');
 }
 
 1;

@@ -17,7 +17,7 @@ sub new {
 
 sub user { shift }
 
-sub get_user {
+sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};
 
@@ -27,201 +27,169 @@ sub get_user {
 
 sub handle {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'HANDLE');
+    $self->property($id, 'HANDLE');
 }
 
 sub fullname {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'FULLNAME');
+    $self->property($id, 'FULLNAME');
 }
 
 sub birthday {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'BIRTHDAY');
+    $self->property($id, 'BIRTHDAY');
 }
 
 sub sex {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'SEX');
+    $self->property($id, 'SEX');
 }
 
 sub language {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'LANGUAGE');
+    $self->property($id, 'LANGUAGE');
 }
 
 sub country {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'COUNTRY');
+    $self->property($id, 'COUNTRY');
 }
 
 sub province {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'PROVINCE');
+    $self->property($id, 'PROVINCE');
 }
 
 sub city {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'CITY');
+    $self->property($id, 'CITY');
 }
 
 sub phone_home {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'PHONE_HOME');
+    $self->property($id, 'PHONE_HOME');
 }
 
 sub phone_office {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'PHONE_OFFICE');
+    $self->property($id, 'PHONE_OFFICE');
 }
 
 sub phone_mobile {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'PHONE_MOBILE');
+    $self->property($id, 'PHONE_MOBILE');
 }
 
 sub homepage {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'HOMEPAGE');
+    $self->property($id, 'HOMEPAGE');
 }
 
 sub about {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'ABOUT');
+    $self->property($id, 'ABOUT');
 }
 
 sub hascallequipment {
     my ($self, $id) = @_;
-
-    my $res = $self->get_user($id, 'HASCALLEQUIPMENT');
+    my $res = $self->property($id, 'HASCALLEQUIPMENT');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub is_video_capable {
     my ($self, $id) = @_;
-
-    my $res = $self->get_user($id, 'IS_VIDEO_CAPABLE');
+    my $res = $self->property($id, 'IS_VIDEO_CAPABLE');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub is_voicemail_capable {
     my ($self, $id) = @_;
-
-    my $res = $self->get_user($id, 'IS_VOICEMAIL_CAPABLE');
+    my $res = $self->property($id, 'IS_VOICEMAIL_CAPABLE');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub buddystatus {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'BUDDYSTATUS');
+    $self->property($id, 'BUDDYSTATUS');
 }
 
 sub isauthorized {
     my ($self, $id) = @_;
-
-    my $res = $self->get_user($id, 'ISAUTHORIZED');
+    my $res = $self->property($id, 'ISAUTHORIZED');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub isblocked {
     my ($self, $id) = @_;
-
-    my $res = $self->get_user($id, 'ISBLOCKED');
+    my $res = $self->property($id, 'ISBLOCKED');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub onlinestatus {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'ONLINESTATUS');
+    $self->property($id, 'ONLINESTATUS');
 }
 
 #sub skypeout {
 #    my ($self, $id) = @_;
-#
-#    $self->get_user($id, 'SKYPEOUT');
+#    $self->property($id, 'SKYPEOUT');
 #}
 
 #sub skypeme {
 #    my ($self, $id) = @_;
-#
-#    $self->get_user($id, 'SKYPEME');
+#    $self->property($id, 'SKYPEME');
 #}
 
 sub lastonlinetimestamp {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'LASTONLINETIMESTAMP');
+    $self->property($id, 'LASTONLINETIMESTAMP');
 }
 
 sub can_leave_vm {
     my ($self, $id) = @_;
-
-    my $res = $self->get_user($id, 'CAN_LEAVE_VM');
+    my $res = $self->property($id, 'CAN_LEAVE_VM');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub speeddial {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'SPEEDDIAL');
+    $self->property($id, 'SPEEDDIAL');
 }
 
 sub receivedauthrequest {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'RECEIVEDAUTHREQUEST');
+    $self->property($id, 'RECEIVEDAUTHREQUEST');
 }
 
 sub mood_text {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'MOOD_TEXT');
+    $self->property($id, 'MOOD_TEXT');
 }
 
 sub rich_mood_text {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'RICH_MOOD_TEXT');
+    $self->property($id, 'RICH_MOOD_TEXT');
 }
 
 sub aliases {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'ALIASES');
+    $self->property($id, 'ALIASES');
 }
 
 sub timezone {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'TIMEZONE');
+    $self->property($id, 'TIMEZONE');
 }
 
 sub is_cf_active {
     my ($self, $id) = @_;
-
-    my $res = $self->get_user($id, 'IS_CF_ACTIVE');
+    my $res = $self->property($id, 'IS_CF_ACTIVE');
     $res eq 'TRUE' ? 1 : 0
 }
 
 sub nrof_authed_buddies {
     my ($self, $id) = @_;
-
-    $self->get_user($id, 'NROF_AUTHED_BUDDIES');
+    $self->property($id, 'NROF_AUTHED_BUDDIES');
 }
 
 1;

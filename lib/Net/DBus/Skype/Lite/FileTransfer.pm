@@ -17,7 +17,7 @@ sub new {
 
 sub filetransfer { shift }
 
-sub get_filetransfer {
+sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};
 
@@ -27,68 +27,57 @@ sub get_filetransfer {
 
 sub type {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'TYPE');
+    $self->property($id, 'TYPE');
 }
 
 sub status {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'STATUS');
+    $self->property($id, 'STATUS');
 }
 
 sub failusereason {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'FAILUSEREASON');
+    $self->property($id, 'FAILUSEREASON');
 }
 
 sub partner_handle {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'PARTNER_HANDLE');
+    $self->property($id, 'PARTNER_HANDLE');
 }
 
 sub partner_dispname {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'PARTNER_DISPNAME');
+    $self->property($id, 'PARTNER_DISPNAME');
 }
 
 sub starttime {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'STARTTIME');
+    $self->property($id, 'STARTTIME');
 }
 
 sub finishtime {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'FINISHTIME');
+    $self->property($id, 'FINISHTIME');
 }
 
 sub filepath {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'FILEPATH');
+    $self->property($id, 'FILEPATH');
 }
 
 sub filesize {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'FILESIZE');
+    $self->property($id, 'FILESIZE');
 }
 
 sub bytespersecond {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'BYTESPERSECOND');
+    $self->property($id, 'BYTESPERSECOND');
 }
 
 sub bytestransferred {
     my ($self, $id) = @_;
-
-    $self->get_filetransfer($id, 'BYTESTRANSFERRED');
+    $self->property($id, 'BYTESTRANSFERRED');
 }
 
 

@@ -17,7 +17,7 @@ sub new {
 
 sub group { shift }
 
-sub get_group {
+sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};
 
@@ -27,38 +27,32 @@ sub get_group {
 
 sub type {
     my ($self, $id) = @_;
-
-    $self->get_group($id, 'TYPE');
+    $self->property($id, 'TYPE');
 }
 
 sub custom_group_id {
     my ($self, $id) = @_;
-
-    $self->get_group($id, 'CUSTOM_GROUP_ID');
+    $self->property($id, 'CUSTOM_GROUP_ID');
 }
 
 sub displayname {
     my ($self, $id) = @_;
-
-    $self->get_group($id, 'DISPLAYNAME');
+    $self->property($id, 'DISPLAYNAME');
 }
 
 sub nrofusers {
     my ($self, $id) = @_;
-
-    $self->get_group($id, 'NROFUSERS');
+    $self->property($id, 'NROFUSERS');
 }
 
 sub nrofusers_online {
     my ($self, $id) = @_;
-
-    $self->get_group($id, 'NROFUSERS_ONLINE');
+    $self->property($id, 'NROFUSERS_ONLINE');
 }
 
 sub users {
     my ($self, $id) = @_;
-
-    $self->get_group($id, 'USERS');
+    $self->property($id, 'USERS');
 }
 
 1;

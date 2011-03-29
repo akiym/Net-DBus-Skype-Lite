@@ -2,6 +2,8 @@ package Net::DBus::Skype::Lite::Command;
 use strict;
 use warnings;
 use Net::DBus::Skype::Lite::Context;
+use Net::DBus::Skype::Lite::Util;
+
 use Net::DBus::Skype::Lite::User;
 use Net::DBus::Skype::Lite::Profile;
 use Net::DBus::Skype::Lite::Call;
@@ -13,7 +15,6 @@ use Net::DBus::Skype::Lite::ChatMessage;
 #use Net::DBus::Skype::Lite::Application;
 use Net::DBus::Skype::Lite::Group;
 use Net::DBus::Skype::Lite::FileTransfer;
-use Net::DBus::Skype::Lite::Util;
 
 sub parse {
     my ($class, $notification) = @_;

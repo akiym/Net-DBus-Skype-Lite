@@ -17,7 +17,7 @@ sub new {
 
 sub chatmember { shift }
 
-sub get_chatmember {
+sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};
 
@@ -27,26 +27,22 @@ sub get_chatmember {
 
 sub chatname {
     my ($self, $id) = @_;
-
-    $self->get_chatmember($id, 'CHATNAME');
+    $self->property($id, 'CHATNAME');
 }
 
 sub identity {
     my ($self, $id) = @_;
-
-    $self->get_chatmember($id, 'IDENTITY');
+    $self->property($id, 'IDENTITY');
 }
 
 sub role {
     my ($self, $id) = @_;
-
-    $self->get_chatmember($id, 'ROLE');
+    $self->property($id, 'ROLE');
 }
 
 sub is_active {
     my ($self, $id) = @_;
-
-    my $res = $self->get_chatmember($id, 'IS_ACTIVE');
+    my $res = $self->property($id, 'IS_ACTIVE');
     $res eq 'TRUE' ? 1 : 0;
 }
 

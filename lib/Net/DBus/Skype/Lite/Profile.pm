@@ -16,7 +16,7 @@ sub new {
 
 sub profile { shift }
 
-sub get_profile {
+sub property {
     my ($self, $property) = @_;
 
     my $res = c->api(qq{GET PROFILE $property});
@@ -25,142 +25,119 @@ sub get_profile {
 
 sub pstn_balance {
     my ($self) = @_;
-
-    $self->get_profile('PSTN_BALANCE');
+    $self->property('PSTN_BALANCE');
 }
 
 sub pstn_balance_currency {
     my ($self) = @_;
-
-    $self->get_profile('PSTN_BALANCE_CURRENCY');
+    $self->property('PSTN_BALANCE_CURRENCY');
 }
 
 sub fullname {
     my ($self) = @_;
-
-    $self->get_profile('FULLNAME');
+    $self->property('FULLNAME');
 }
 
 sub birthday {
     my ($self) = @_;
-
-    $self->get_profile('BIRTHDAY');
+    $self->property('BIRTHDAY');
 }
 
 sub sex {
     my ($self) = @_;
-
-    $self->get_profile('SEX');
+    $self->property('SEX');
 }
 
 sub languages {
     my ($self) = @_;
-
-    $self->get_profile('LANGUAGES');
+    $self->property('LANGUAGES');
 }
 
 sub country {
     my ($self) = @_;
-
-    $self->get_profile('COUNTRY');
+    $self->property('COUNTRY');
 }
 
 sub ipcountry {
     my ($self) = @_;
-
-    $self->get_profile('IPCOUNTRY');
+    $self->property('IPCOUNTRY');
 }
 
 sub province {
     my ($self) = @_;
-
-    $self->get_profile('PROVINCE');
+    $self->property('PROVINCE');
 }
 
 sub city {
     my ($self) = @_;
-
-    $self->get_profile('CITY');
+    $self->property('CITY');
 }
 
 sub phone_home {
     my ($self) = @_;
-
-    $self->get_profile('PHONE_HOME');
+    $self->property('PHONE_HOME');
 }
 
 sub phone_office {
     my ($self) = @_;
-
-    $self->get_profile('PHONE_OFFICE');
+    $self->property('PHONE_OFFICE');
 }
 
 sub phone_mobile {
     my ($self) = @_;
-
-    $self->get_profile('PHONE_MOBILE');
+    $self->property('PHONE_MOBILE');
 }
 
 sub homepage {
     my ($self) = @_;
-
-    $self->get_profile('HOMEPAGE');
+    $self->property('HOMEPAGE');
 }
 
 sub about {
     my ($self) = @_;
-
-    $self->get_profile('ABOUT');
+    $self->property('ABOUT');
 }
 
 sub mood_text {
     my ($self) = @_;
-
-    $self->get_profile('MOOD_TEXT');
+    $self->property('MOOD_TEXT');
 }
 
 sub rich_mood_text {
     my ($self) = @_;
-
-    $self->get_profile('RICH_MOOD_TEXT');
+    $self->property('RICH_MOOD_TEXT');
 }
 
 sub timezone {
     my ($self) = @_;
-
-    $self->get_profile('TIMEZONE');
+    $self->property('TIMEZONE');
 }
 
 sub call_apply_cf {
     my ($self) = @_;
-
-    my $res = $self->get_profile('CALL_APPLY_CF');
+    my $res = $self->property('CALL_APPLY_CF');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub call_noanswer_timeout {
     my ($self) = @_;
-
-    $self->get_profile('CALL_NOANSWER_TIMEOUT');
+    $self->property('CALL_NOANSWER_TIMEOUT');
 }
 
 sub call_forward_rules {
     my ($self) = @_;
-
-    $self->get_profile('CALL_FORWARD_RULES');
+    $self->property('CALL_FORWARD_RULES');
 }
 
 sub call_send_to_vm {
     my ($self) = @_;
-
-    my $res = $self->get_profile('CALL_SEND_TO_VM');
+    my $res = $self->property('CALL_SEND_TO_VM');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub sms_validated_numbers {
     my ($self) = @_;
-
-    $self->get_profile('SMS_VALIDATED_NUMBERS');
+    $self->property('SMS_VALIDATED_NUMBERS');
 }
 
 1;
