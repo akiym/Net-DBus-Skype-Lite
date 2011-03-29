@@ -102,6 +102,12 @@ sub body {
     $self->property($id, 'BODY');
 }
 
+sub chat {
+    my ($self, $id) = @_;
+    $id ||= $self->chatname;
+    return object('Chat', id => $id);
+}
+
 1;
 __END__
 
@@ -134,6 +140,10 @@ Net::DBus::Skype::Lite::ChatMessage
 =item role
 =item seen
 =item body
+
+=item chat
+
+return Net::DBus::Skype::Lite::Chat object.
 
 =back
 

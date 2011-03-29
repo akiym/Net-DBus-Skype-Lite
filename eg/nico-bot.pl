@@ -31,7 +31,7 @@ $skype->message_received(sub {
             my $chat = $skype->create_chat($msg->from_handle);
             $chat->send_message($message);
         } else {
-            $skype->send_message($msg->chatname, $message);
+            $msg->chat->send_message($message);
         }
     }
 });

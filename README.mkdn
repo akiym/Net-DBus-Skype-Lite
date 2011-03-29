@@ -29,7 +29,7 @@ Linuxで使えるSkype API wrapper
         if (my ($video_id) = $msg->body =~ /([sn]m\d+)/) {
             my $message = get_info($video_id);
             return unless $message;
-            $skype->send_message($msg->chatname, $message);
+            $msg->chat->send_message($message);
         }
     });
 
