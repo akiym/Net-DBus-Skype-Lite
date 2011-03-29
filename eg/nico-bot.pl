@@ -28,8 +28,7 @@ $skype->message_received(sub {
         return unless $message;
         infof($msg->from_dispname . ': ' . $body);
         if ($msg->body =~ /@俺/) {
-            my $chat = $skype->create_chat($msg->from_handle);
-            $chat->send_message($message);
+            $skype->user($msg->from_handle)->send_message($message);
         } else {
             $msg->chat->send_message($message);
         }

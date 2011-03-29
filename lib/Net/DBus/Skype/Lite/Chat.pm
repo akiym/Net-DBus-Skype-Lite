@@ -21,7 +21,7 @@ sub send_message {
     my ($self, $message) = @_;
 
     my $id = $self->{id};
-    c->api(qq{CHATMESSAGE $id $message});
+    c->send_message($id, $message);
 }
 
 sub property {

@@ -17,6 +17,14 @@ sub new {
 
 sub user { shift }
 
+sub send_message {
+    my ($self, $message) = @_;
+
+    my $id = $self->{id};
+    my $chat = c->create_chat($id);
+    $chat->send_message($message);
+}
+
 sub property {
     my ($self, $id, $property) = @_;
     $id ||= $self->{id};

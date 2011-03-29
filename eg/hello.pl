@@ -12,8 +12,7 @@ $skype->user(sub {
     my ($user) = @_;
     if ($user->{property} eq 'ONLINESTATUS' && $user->{value} eq 'ONLINE') {
         infof($user->{id});
-        my $chat = $skype->create_chat($user->{id});
-        $chat->send_message('こんにちワン');
+        $user->send_message('こんにちワン');
     }
 });
 
