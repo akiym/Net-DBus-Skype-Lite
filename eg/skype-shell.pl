@@ -11,9 +11,6 @@ my $skype = Net::DBus::Skype::Lite->new();
 
 my $term = Term::ReadLine->new('Skype shell');
 while (defined(my $cmd = $term->readline('skype> '))) {
-    if ($cmd =~ /\(.*\)$/) {
-        eval "print Dumper(\$skype->$cmd)";
-    } else {
-        print $skype->api($cmd), "\n";
-    }
+    exit if $cmd eq 'exit';
+    print $skype->api($cmd), "\n";
 }
