@@ -158,7 +158,8 @@ sub forwarded_by {
 
 sub transfer_active {
     my ($self, $id) = @_;
-    $self->property($id, 'TRANSFER_ACTIVE');
+    my $res = $self->property($id, 'TRANSFER_ACTIVE');
+    $res eq 'TRUE' ? 1 : 0;
 }
 
 sub transfer_status {
