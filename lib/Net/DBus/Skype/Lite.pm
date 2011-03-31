@@ -388,6 +388,19 @@ Net::DBus::Skype::Lite -
         # run
     });
 
+=over 4
+
+=item onlinestatus
+
+    $skype->user(
+        onlinestatus => sub {
+            my ($call, $onlinestatus) = @_;
+            # run
+        }
+    );
+
+=back
+
 =head2 C<< $skype->profile() >>
 
     $skype->profile();
@@ -551,12 +564,6 @@ return arrayref of Net::DBus::Skype::Lite::Group object.
 =head2 Net::DBus::Skype::Lite::ChatMember;
 
 =head2 Net::DBus::Skype::Lite::ChatMessage;
-
-=head2 Net::DBus::Skype::Lite::VoiceMail;
-
-=head2 Net::DBus::Skype::Lite::SMS;
-
-=head2 Net::DBus::Skype::Lite::Application;
 
 =head2 Net::DBus::Skype::Lite::Group;
 

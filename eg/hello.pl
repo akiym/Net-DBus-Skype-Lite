@@ -8,13 +8,15 @@ use Net::DBus::Skype::Lite;
 use Log::Minimal;
 
 my $skype = Net::DBus::Skype::Lite->new();
-$skype->user(sub {
-    my ($user) = @_;
-    if ($user->{property} eq 'ONLINESTATUS' && $user->{value} eq 'ONLINE') {
-        infof($user->{id});
-        $user->send_message('こんにちワン');
+$skype->user(
+    onlinestatus => sub {
+        my ($user, $onlinestatus) = @_;
+        if ($onlinestatus eq 'ONLINE') {
+            infof($user->handle);
+            $user->send_message('こんにちワン');
+        }
     }
-});
+);
 
 my $reactor = Net::DBus::Reactor->main();
 $reactor->run();

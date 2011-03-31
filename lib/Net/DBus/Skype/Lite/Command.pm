@@ -26,6 +26,9 @@ sub parse {
             id => $id, property => $property, value => $value,
         );
         $user->call_trigger(user => $notification);
+        if ($property eq 'ONLINESTATUS') {
+            $user->call_trigger(onlinestatus => $value);
+        }
         return $user;
     } elsif ($command eq 'PROFILE') {
         my $profile = object(
