@@ -25,73 +25,73 @@ sub send_message {
 }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET CHAT $id $property});
     (parse_notification($res))[3];
 }
 
 sub name {
-    my ($self, $id) = @_;
-    $self->property($id, 'NAME');
+    my ($self) = @_;
+    $self->property('NAME');
 }
 
 sub timestamp {
-    my ($self, $id) = @_;
-    $self->property($id, 'TIMESTAMP');
+    my ($self) = @_;
+    $self->property('TIMESTAMP');
 }
 
 sub adder {
-    my ($self, $id) = @_;
-    $self->property($id, 'ADDER');
+    my ($self) = @_;
+    $self->property('ADDER');
 }
 
 sub status {
-    my ($self, $id) = @_;
-    $self->property($id, 'STATUS');
+    my ($self) = @_;
+    $self->property('STATUS');
 }
 
 sub posters {
-    my ($self, $id) = @_;
-    $self->property($id, 'POSTERS');
+    my ($self) = @_;
+    $self->property('POSTERS');
 }
 
 sub members {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'MEMBERS');
+    my ($self) = @_;
+    my $res = $self->property('MEMBERS');
     my @members = split ' ', $res;
     \@members;
 }
 
 sub topic {
-    my ($self, $id) = @_;
-    $self->property($id, 'TOPIC');
+    my ($self) = @_;
+    $self->property('TOPIC');
 }
 
 sub topicxml {
-    my ($self, $id) = @_;
-    $self->property($id, 'TOPICXML');
+    my ($self) = @_;
+    $self->property('TOPICXML');
 }
 
 sub activemembers {
-    my ($self, $id) = @_;
-    $self->property($id, 'ACTIVEMEMBERS');
+    my ($self) = @_;
+    $self->property('ACTIVEMEMBERS');
 }
 
 sub friendlyname {
-    my ($self, $id) = @_;
-    $self->property($id, 'FRIENDLYNAME');
+    my ($self) = @_;
+    $self->property('FRIENDLYNAME');
 }
 
 sub chatmessages {
-    my ($self, $id) = @_;
-    $self->property($id, 'CHATMESSAGES');
+    my ($self) = @_;
+    $self->property('CHATMESSAGES');
 }
 
 sub recentchatmessages {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'RECENTCHATMESSAGES');
+    my ($self) = @_;
+    my $res = $self->property('RECENTCHATMESSAGES');
     my @messages = split ', ', $res;
     for my $message (@messages) {
         $message = object('ChatMessage', id => $message);
@@ -100,14 +100,14 @@ sub recentchatmessages {
 }
 
 sub bookmarked {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'BOOKMARKED');
+    my ($self) = @_;
+    my $res = $self->property('BOOKMARKED');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub memberobjects {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'MEMBEROBJECTS');
+    my ($self) = @_;
+    my $res = $self->property('MEMBEROBJECTS');
     my @members = split ', ', $res;
     for my $member (@members) {
         $member = object('ChatMember', id => $member);
@@ -116,58 +116,58 @@ sub memberobjects {
 }
 
 sub passwordhint {
-    my ($self, $id) = @_;
-    $self->property($id, 'PASSWORDHINT');
+    my ($self) = @_;
+    $self->property('PASSWORDHINT');
 }
 
 sub guidelines {
-    my ($self, $id) = @_;
-    $self->property($id, 'GUIDELINES');
+    my ($self) = @_;
+    $self->property('GUIDELINES');
 }
 
 sub options {
-    my ($self, $id) = @_;
-    $self->property($id, 'OPTIONS');
+    my ($self) = @_;
+    $self->property('OPTIONS');
 }
 
 sub description {
-    my ($self, $id) = @_;
-    $self->property($id, 'DESCRIPTION');
+    my ($self) = @_;
+    $self->property('DESCRIPTION');
 }
 
 sub dialog_partner {
-    my ($self, $id) = @_;
-    $self->property($id, 'DIALOG_PARTNER');
+    my ($self) = @_;
+    $self->property('DIALOG_PARTNER');
 }
 
 sub activity_timestamp {
-    my ($self, $id) = @_;
-    $self->property($id, 'ACTIVITY_TIMESTAMP');
+    my ($self) = @_;
+    $self->property('ACTIVITY_TIMESTAMP');
 }
 
 sub type {
-    my ($self, $id) = @_;
-    $self->property($id, 'TYPE');
+    my ($self) = @_;
+    $self->property('TYPE');
 }
 
 sub mystatus {
-    my ($self, $id) = @_;
-    $self->property($id, 'MYSTATUS');
+    my ($self) = @_;
+    $self->property('MYSTATUS');
 }
 
 sub myrole {
-    my ($self, $id) = @_;
-    $self->property($id, 'MYROLE');
+    my ($self) = @_;
+    $self->property('MYROLE');
 }
 
 sub blob {
-    my ($self, $id) = @_;
-    $self->property($id, 'BLOB');
+    my ($self) = @_;
+    $self->property('BLOB');
 }
 
 sub applicants {
-    my ($self, $id) = @_;
-    $self->property($id, 'APPLICANTS');
+    my ($self) = @_;
+    $self->property('APPLICANTS');
 }
 
 1;

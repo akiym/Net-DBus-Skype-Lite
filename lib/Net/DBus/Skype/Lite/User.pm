@@ -26,178 +26,178 @@ sub send_message {
 }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET USER $id $property});
     (parse_notification($res))[3];
 }
 
 sub handle {
-    my ($self, $id) = @_;
-    $self->property($id, 'HANDLE');
+    my ($self) = @_;
+    $self->property('HANDLE');
 }
 
 sub fullname {
-    my ($self, $id) = @_;
-    $self->property($id, 'FULLNAME');
+    my ($self) = @_;
+    $self->property('FULLNAME');
 }
 
 sub birthday {
-    my ($self, $id) = @_;
-    $self->property($id, 'BIRTHDAY');
+    my ($self) = @_;
+    $self->property('BIRTHDAY');
 }
 
 sub sex {
-    my ($self, $id) = @_;
-    $self->property($id, 'SEX');
+    my ($self) = @_;
+    $self->property('SEX');
 }
 
 sub language {
-    my ($self, $id) = @_;
-    $self->property($id, 'LANGUAGE');
+    my ($self) = @_;
+    $self->property('LANGUAGE');
 }
 
 sub country {
-    my ($self, $id) = @_;
-    $self->property($id, 'COUNTRY');
+    my ($self) = @_;
+    $self->property('COUNTRY');
 }
 
 sub province {
-    my ($self, $id) = @_;
-    $self->property($id, 'PROVINCE');
+    my ($self) = @_;
+    $self->property('PROVINCE');
 }
 
 sub city {
-    my ($self, $id) = @_;
-    $self->property($id, 'CITY');
+    my ($self) = @_;
+    $self->property('CITY');
 }
 
 sub phone_home {
-    my ($self, $id) = @_;
-    $self->property($id, 'PHONE_HOME');
+    my ($self) = @_;
+    $self->property('PHONE_HOME');
 }
 
 sub phone_office {
-    my ($self, $id) = @_;
-    $self->property($id, 'PHONE_OFFICE');
+    my ($self) = @_;
+    $self->property('PHONE_OFFICE');
 }
 
 sub phone_mobile {
-    my ($self, $id) = @_;
-    $self->property($id, 'PHONE_MOBILE');
+    my ($self) = @_;
+    $self->property('PHONE_MOBILE');
 }
 
 sub homepage {
-    my ($self, $id) = @_;
-    $self->property($id, 'HOMEPAGE');
+    my ($self) = @_;
+    $self->property('HOMEPAGE');
 }
 
 sub about {
-    my ($self, $id) = @_;
-    $self->property($id, 'ABOUT');
+    my ($self) = @_;
+    $self->property('ABOUT');
 }
 
 sub hascallequipment {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'HASCALLEQUIPMENT');
+    my ($self) = @_;
+    my $res = $self->property('HASCALLEQUIPMENT');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub is_video_capable {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'IS_VIDEO_CAPABLE');
+    my ($self) = @_;
+    my $res = $self->property('IS_VIDEO_CAPABLE');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub is_voicemail_capable {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'IS_VOICEMAIL_CAPABLE');
+    my ($self) = @_;
+    my $res = $self->property('IS_VOICEMAIL_CAPABLE');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub buddystatus {
-    my ($self, $id) = @_;
-    $self->property($id, 'BUDDYSTATUS');
+    my ($self) = @_;
+    $self->property('BUDDYSTATUS');
 }
 
 sub isauthorized {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'ISAUTHORIZED');
+    my ($self) = @_;
+    my $res = $self->property('ISAUTHORIZED');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub isblocked {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'ISBLOCKED');
+    my ($self) = @_;
+    my $res = $self->property('ISBLOCKED');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub onlinestatus {
-    my ($self, $id) = @_;
-    $self->property($id, 'ONLINESTATUS');
+    my ($self) = @_;
+    $self->property('ONLINESTATUS');
 }
 
 #sub skypeout {
-#    my ($self, $id) = @_;
-#    $self->property($id, 'SKYPEOUT');
+#    my ($self) = @_;
+#    $self->property('SKYPEOUT');
 #}
 
 #sub skypeme {
-#    my ($self, $id) = @_;
-#    $self->property($id, 'SKYPEME');
+#    my ($self) = @_;
+#    $self->property('SKYPEME');
 #}
 
 sub lastonlinetimestamp {
-    my ($self, $id) = @_;
-    $self->property($id, 'LASTONLINETIMESTAMP');
+    my ($self) = @_;
+    $self->property('LASTONLINETIMESTAMP');
 }
 
 sub can_leave_vm {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'CAN_LEAVE_VM');
+    my ($self) = @_;
+    my $res = $self->property('CAN_LEAVE_VM');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub speeddial {
-    my ($self, $id) = @_;
-    $self->property($id, 'SPEEDDIAL');
+    my ($self) = @_;
+    $self->property('SPEEDDIAL');
 }
 
 sub receivedauthrequest {
-    my ($self, $id) = @_;
-    $self->property($id, 'RECEIVEDAUTHREQUEST');
+    my ($self) = @_;
+    $self->property('RECEIVEDAUTHREQUEST');
 }
 
 sub mood_text {
-    my ($self, $id) = @_;
-    $self->property($id, 'MOOD_TEXT');
+    my ($self) = @_;
+    $self->property('MOOD_TEXT');
 }
 
 sub rich_mood_text {
-    my ($self, $id) = @_;
-    $self->property($id, 'RICH_MOOD_TEXT');
+    my ($self) = @_;
+    $self->property('RICH_MOOD_TEXT');
 }
 
 sub aliases {
-    my ($self, $id) = @_;
-    $self->property($id, 'ALIASES');
+    my ($self) = @_;
+    $self->property('ALIASES');
 }
 
 sub timezone {
-    my ($self, $id) = @_;
-    $self->property($id, 'TIMEZONE');
+    my ($self) = @_;
+    $self->property('TIMEZONE');
 }
 
 sub is_cf_active {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'IS_CF_ACTIVE');
+    my ($self) = @_;
+    my $res = $self->property('IS_CF_ACTIVE');
     $res eq 'TRUE' ? 1 : 0
 }
 
 sub nrof_authed_buddies {
-    my ($self, $id) = @_;
-    $self->property($id, 'NROF_AUTHED_BUDDIES');
+    my ($self) = @_;
+    $self->property('NROF_AUTHED_BUDDIES');
 }
 
 1;

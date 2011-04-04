@@ -19,92 +19,92 @@ sub new {
 sub chatmessage { shift }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET CHATMESSAGE $id $property});
     (parse_notification($res))[3];
 }
 
 sub timestamp {
-    my ($self, $id) = @_;
-    $self->property($id, 'TIMESTAMP');
+    my ($self) = @_;
+    $self->property('TIMESTAMP');
 }
 
 sub from_handle {
-    my ($self, $id) = @_;
-    $self->property($id, 'FROM_HANDLE');
+    my ($self) = @_;
+    $self->property('FROM_HANDLE');
 }
 
 sub from_dispname {
-    my ($self, $id) = @_;
-    $self->property($id, 'FROM_DISPNAME');
+    my ($self) = @_;
+    $self->property('FROM_DISPNAME');
 }
 
 sub type {
-    my ($self, $id) = @_;
-    $self->property($id, 'TYPE');
+    my ($self) = @_;
+    $self->property('TYPE');
 }
 
 sub status {
-    my ($self, $id) = @_;
-    $self->property($id, 'STATUS');
+    my ($self) = @_;
+    $self->property('STATUS');
 }
 
 sub leavereason {
-    my ($self, $id) = @_;
-    $self->property($id, 'LEAVEREASON');
+    my ($self) = @_;
+    $self->property('LEAVEREASON');
 }
 
 sub chatname {
-    my ($self, $id) = @_;
-    $self->property($id, 'CHATNAME');
+    my ($self) = @_;
+    $self->property('CHATNAME');
 }
 
 sub users {
-    my ($self, $id) = @_;
-    $self->property($id, 'USERS');
+    my ($self) = @_;
+    $self->property('USERS');
 }
 
 sub is_editable {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'IS_EDITABLE');
+    my ($self) = @_;
+    my $res = $self->property('IS_EDITABLE');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub edited_by {
-    my ($self, $id) = @_;
-    $self->property($id, 'EDITED_BY');
+    my ($self) = @_;
+    $self->property('EDITED_BY');
 }
 
 sub edited_timestamp {
-    my ($self, $id) = @_;
-    $self->property($id, 'EDITED_TIMESTAMP');
+    my ($self) = @_;
+    $self->property('EDITED_TIMESTAMP');
 }
 
 sub options {
-    my ($self, $id) = @_;
-    $self->property($id, 'OPTIONS');
+    my ($self) = @_;
+    $self->property('OPTIONS');
 }
 
 sub role {
-    my ($self, $id) = @_;
-    $self->property($id, 'ROLE');
+    my ($self) = @_;
+    $self->property('ROLE');
 }
 
 sub seen {
-    my ($self, $id) = @_;
-    $self->property($id, 'SEEN');
+    my ($self) = @_;
+    $self->property('SEEN');
 }
 
 sub body {
-    my ($self, $id) = @_;
-    $self->property($id, 'BODY');
+    my ($self) = @_;
+    $self->property('BODY');
 }
 
 sub chat {
-    my ($self, $id) = @_;
-    $id ||= $self->chatname;
+    my ($self) = @_;
+    my $id = $self->chatname;
     return object('Chat', id => $id);
 }
 

@@ -18,41 +18,41 @@ sub new {
 sub group { shift }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET GROUP $id $property});
     (parse_notification($res))[3];
 }
 
 sub type {
-    my ($self, $id) = @_;
-    $self->property($id, 'TYPE');
+    my ($self) = @_;
+    $self->property('TYPE');
 }
 
 sub custom_group_id {
-    my ($self, $id) = @_;
-    $self->property($id, 'CUSTOM_GROUP_ID');
+    my ($self) = @_;
+    $self->property('CUSTOM_GROUP_ID');
 }
 
 sub displayname {
-    my ($self, $id) = @_;
-    $self->property($id, 'DISPLAYNAME');
+    my ($self) = @_;
+    $self->property('DISPLAYNAME');
 }
 
 sub nrofusers {
-    my ($self, $id) = @_;
-    $self->property($id, 'NROFUSERS');
+    my ($self) = @_;
+    $self->property('NROFUSERS');
 }
 
 sub nrofusers_online {
-    my ($self, $id) = @_;
-    $self->property($id, 'NROFUSERS_ONLINE');
+    my ($self) = @_;
+    $self->property('NROFUSERS_ONLINE');
 }
 
 sub users {
-    my ($self, $id) = @_;
-    $self->property($id, 'USERS');
+    my ($self) = @_;
+    $self->property('USERS');
 }
 
 1;

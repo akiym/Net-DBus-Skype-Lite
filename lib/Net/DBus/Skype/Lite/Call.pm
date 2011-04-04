@@ -18,163 +18,174 @@ sub new {
 sub call { shift }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET CALL $id $property});
     (parse_notification($res))[3];
 }
 
+sub set_property {
+    my ($self, $property, $value) = @_;
+
+    my $id = $self->{id};
+    c->api(qq{SET CALL $id $property $value});
+}
+
 sub timestamp {
-    my ($self, $id) = @_;
-    $self->property($id, 'TIMESTAMP');
+    my ($self) = @_;
+    $self->property('TIMESTAMP');
 }
 
 sub partner_handle {
-    my ($self, $id) = @_;
-    $self->property($id, 'PARTNER_HANDLE');
+    my ($self) = @_;
+    $self->property('PARTNER_HANDLE');
 }
 
 sub partner_dispname {
-    my ($self, $id) = @_;
-    $self->property($id, 'PARTNER_DISPNAME');
+    my ($self) = @_;
+    $self->property('PARTNER_DISPNAME');
 }
 
 sub target_identity {
-    my ($self, $id) = @_;
-    $self->property($id, 'TARGET_IDENTITY');
+    my ($self) = @_;
+    $self->property('TARGET_IDENTITY');
 }
 
 sub conf_id {
-    my ($self, $id) = @_;
-    $self->property($id, 'CONF_ID');
+    my ($self) = @_;
+    $self->property('CONF_ID');
 }
 
 sub type {
-    my ($self, $id) = @_;
-    $self->property($id, 'TYPE');
+    my ($self) = @_;
+    $self->property('TYPE');
 }
 
 sub status {
-    my ($self, $id) = @_;
-    $self->property($id, 'STATUS');
+    my ($self, $value) = @_;
+    if (defined $value) {
+        $self->set_property('STATUS', $value);
+    } else {
+        $self->property('STATUS');
+    }
 }
 
 sub video_status {
-    my ($self, $id) = @_;
-    $self->property($id, 'VIDEO_STATUS');
+    my ($self) = @_;
+    $self->property('VIDEO_STATUS');
 }
 
 sub video_send_status {
-    my ($self, $id) = @_;
-    $self->property($id, 'VIDEO_SEND_STATUS');
+    my ($self) = @_;
+    $self->property('VIDEO_SEND_STATUS');
 }
 
 sub failurereason {
-    my ($self, $id) = @_;
-    $self->property($id, 'FAILUREREASON');
+    my ($self) = @_;
+    $self->property('FAILUREREASON');
 }
 
 sub subject {
-    my ($self, $id) = @_;
-    $self->property($id, 'SUBJECT');
+    my ($self) = @_;
+    $self->property('SUBJECT');
 }
 
 sub pstn_number {
-    my ($self, $id) = @_;
-    $self->property($id, 'PSTN_NUMBER');
+    my ($self) = @_;
+    $self->property('PSTN_NUMBER');
 }
 
 sub duration {
-    my ($self, $id) = @_;
-    $self->property($id, 'DURATION');
+    my ($self) = @_;
+    $self->property('DURATION');
 }
 
 sub pstn_status {
-    my ($self, $id) = @_;
-    $self->property($id, 'PSTN_STATUS');
+    my ($self) = @_;
+    $self->property('PSTN_STATUS');
 }
 
 sub conf_participants_count {
-    my ($self, $id) = @_;
-    $self->property($id, 'CONF_PARTICIPANTS_COUNT');
+    my ($self) = @_;
+    $self->property('CONF_PARTICIPANTS_COUNT');
 }
 
 sub conf_participant {
-    my ($self, $id) = @_;
-    $self->property($id, 'CONF_PARTICIPANT');
+    my ($self) = @_;
+    $self->property('CONF_PARTICIPANT');
 }
 
 sub vm_duration {
-    my ($self, $id) = @_;
-    $self->property($id, 'VM_DURATION');
+    my ($self) = @_;
+    $self->property('VM_DURATION');
 }
 
 sub vm_allowed_duration {
-    my ($self, $id) = @_;
-    $self->property($id, 'VM_ALLOWED_DURATION');
+    my ($self) = @_;
+    $self->property('VM_ALLOWED_DURATION');
 }
 
 sub rate {
-    my ($self, $id) = @_;
-    $self->property($id, 'RATE');
+    my ($self) = @_;
+    $self->property('RATE');
 }
 
 sub rate_currency {
-    my ($self, $id) = @_;
-    $self->property($id, 'RATE_CURRENCY');
+    my ($self) = @_;
+    $self->property('RATE_CURRENCY');
 }
 
 sub rate_precision {
-    my ($self, $id) = @_;
-    $self->property($id, 'RATE_PRECISION');
+    my ($self) = @_;
+    $self->property('RATE_PRECISION');
 }
 
 sub input {
-    my ($self, $id) = @_;
-    $self->property($id, 'INPUT');
+    my ($self) = @_;
+    $self->property('INPUT');
 }
 
 sub output {
-    my ($self, $id) = @_;
-    $self->property($id, 'OUTPUT');
+    my ($self) = @_;
+    $self->property('OUTPUT');
 }
 
 sub capture_mic {
-    my ($self, $id) = @_;
-    $self->property($id, 'CAPTURE_MIC');
+    my ($self) = @_;
+    $self->property('CAPTURE_MIC');
 }
 
 sub vaa_input_status {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'VAA_INPUT_STATUS');
+    my ($self) = @_;
+    my $res = $self->property('VAA_INPUT_STATUS');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub forwarded_by {
-    my ($self, $id) = @_;
-    $self->property($id, 'FORWARDED_BY');
+    my ($self) = @_;
+    $self->property('FORWARDED_BY');
 }
 
 sub transfer_active {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'TRANSFER_ACTIVE');
+    my ($self) = @_;
+    my $res = $self->property('TRANSFER_ACTIVE');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub transfer_status {
-    my ($self, $id) = @_;
-    $self->property($id, 'TRANSFER_STATUS');
+    my ($self) = @_;
+    $self->property('TRANSFER_STATUS');
 }
 
 sub transferred_by {
-    my ($self, $id) = @_;
-    $self->property($id, 'TRANSFERRED_BY');
+    my ($self) = @_;
+    $self->property('TRANSFERRED_BY');
 }
 
 sub transferred_to {
-    my ($self, $id) = @_;
-    $self->property($id, 'TRANSFERRED_TO');
+    my ($self) = @_;
+    $self->property('TRANSFERRED_TO');
 }
 
 1;

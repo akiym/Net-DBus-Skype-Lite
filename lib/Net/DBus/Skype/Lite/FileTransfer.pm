@@ -18,66 +18,66 @@ sub new {
 sub filetransfer { shift }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET FILETRANSFER $id $property});
     (parse_notification($res))[3];
 }
 
 sub type {
-    my ($self, $id) = @_;
-    $self->property($id, 'TYPE');
+    my ($self) = @_;
+    $self->property('TYPE');
 }
 
 sub status {
-    my ($self, $id) = @_;
-    $self->property($id, 'STATUS');
+    my ($self) = @_;
+    $self->property('STATUS');
 }
 
 sub failusereason {
-    my ($self, $id) = @_;
-    $self->property($id, 'FAILUSEREASON');
+    my ($self) = @_;
+    $self->property('FAILUSEREASON');
 }
 
 sub partner_handle {
-    my ($self, $id) = @_;
-    $self->property($id, 'PARTNER_HANDLE');
+    my ($self) = @_;
+    $self->property('PARTNER_HANDLE');
 }
 
 sub partner_dispname {
-    my ($self, $id) = @_;
-    $self->property($id, 'PARTNER_DISPNAME');
+    my ($self) = @_;
+    $self->property('PARTNER_DISPNAME');
 }
 
 sub starttime {
-    my ($self, $id) = @_;
-    $self->property($id, 'STARTTIME');
+    my ($self) = @_;
+    $self->property('STARTTIME');
 }
 
 sub finishtime {
-    my ($self, $id) = @_;
-    $self->property($id, 'FINISHTIME');
+    my ($self) = @_;
+    $self->property('FINISHTIME');
 }
 
 sub filepath {
-    my ($self, $id) = @_;
-    $self->property($id, 'FILEPATH');
+    my ($self) = @_;
+    $self->property('FILEPATH');
 }
 
 sub filesize {
-    my ($self, $id) = @_;
-    $self->property($id, 'FILESIZE');
+    my ($self) = @_;
+    $self->property('FILESIZE');
 }
 
 sub bytespersecond {
-    my ($self, $id) = @_;
-    $self->property($id, 'BYTESPERSECOND');
+    my ($self) = @_;
+    $self->property('BYTESPERSECOND');
 }
 
 sub bytestransferred {
-    my ($self, $id) = @_;
-    $self->property($id, 'BYTESTRANSFERRED');
+    my ($self) = @_;
+    $self->property('BYTESTRANSFERRED');
 }
 
 

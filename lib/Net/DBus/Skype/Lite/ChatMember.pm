@@ -18,31 +18,31 @@ sub new {
 sub chatmember { shift }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET CHATMEMBER $id $property});
     (parse_notification($res))[3];
 }
 
 sub chatname {
-    my ($self, $id) = @_;
-    $self->property($id, 'CHATNAME');
+    my ($self) = @_;
+    $self->property('CHATNAME');
 }
 
 sub identity {
-    my ($self, $id) = @_;
-    $self->property($id, 'IDENTITY');
+    my ($self) = @_;
+    $self->property('IDENTITY');
 }
 
 sub role {
-    my ($self, $id) = @_;
-    $self->property($id, 'ROLE');
+    my ($self) = @_;
+    $self->property('ROLE');
 }
 
 sub is_active {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'IS_ACTIVE');
+    my ($self) = @_;
+    my $res = $self->property('IS_ACTIVE');
     $res eq 'TRUE' ? 1 : 0;
 }
 

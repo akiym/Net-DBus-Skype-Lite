@@ -17,71 +17,71 @@ sub new {
 sub voicemail { shift }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET VOICEMAIL $id $property});
     (parse_notification($res))[3];
 }
 
 sub type {
-    my ($self, $id) = @_;
-    $self->property($id, 'TYPE');
+    my ($self) = @_;
+    $self->property('TYPE');
 }
 
 sub partner_handle {
-    my ($self, $id) = @_;
-    $self->property($id, 'PARTNER_HANDLE');
+    my ($self) = @_;
+    $self->property('PARTNER_HANDLE');
 }
 
 sub partner_dispname {
-    my ($self, $id) = @_;
-    $self->property($id, 'PARTNER_DISPNAME');
+    my ($self) = @_;
+    $self->property('PARTNER_DISPNAME');
 }
 
 sub status {
-    my ($self, $id) = @_;
-    $self->property($id, 'STATUS');
+    my ($self) = @_;
+    $self->property('STATUS');
 }
 
 sub failurereason {
-    my ($self, $id) = @_;
-    $self->property($id, 'FAILUREREASON');
+    my ($self) = @_;
+    $self->property('FAILUREREASON');
 }
 
 sub subject {
-    my ($self, $id) = @_;
-    $self->property($id, 'SUBJECT');
+    my ($self) = @_;
+    $self->property('SUBJECT');
 }
 
 sub timestamp {
-    my ($self, $id) = @_;
-    $self->property($id, 'TIMESTAMP');
+    my ($self) = @_;
+    $self->property('TIMESTAMP');
 }
 
 sub duration {
-    my ($self, $id) = @_;
-    $self->property($id, 'DURATION');
+    my ($self) = @_;
+    $self->property('DURATION');
 }
 
 sub allowed_duration {
-    my ($self, $id) = @_;
-    $self->property($id, 'ALLOWED_DURATION');
+    my ($self) = @_;
+    $self->property('ALLOWED_DURATION');
 }
 
 sub input {
-    my ($self, $id) = @_;
-    $self->property($id, 'INPUT');
+    my ($self) = @_;
+    $self->property('INPUT');
 }
 
 sub output {
-    my ($self, $id) = @_;
-    $self->property($id, 'OUTPUT');
+    my ($self) = @_;
+    $self->property('OUTPUT');
 }
 
 sub capture_mic {
-    my ($self, $id) = @_;
-    $self->property($id, 'CAPTURE_MIC');
+    my ($self) = @_;
+    $self->property('CAPTURE_MIC');
 }
 
 1;

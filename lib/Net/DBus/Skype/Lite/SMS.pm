@@ -17,72 +17,72 @@ sub new {
 sub sms { shift }
 
 sub property {
-    my ($self, $id, $property) = @_;
-    $id ||= $self->{id};
+    my ($self, $property) = @_;
 
+    my $id = $self->{id};
     my $res = c->api(qq{GET SMS $id $property});
     (parse_notification($res))[3];
 }
 
 sub body {
-    my ($self, $id) = @_;
-    $self->property($id, 'BODY');
+    my ($self) = @_;
+    $self->property('BODY');
 }
 
 sub type {
-    my ($self, $id) = @_;
-    $self->property($id, 'TYPE');
+    my ($self) = @_;
+    $self->property('TYPE');
 }
 
 sub status {
-    my ($self, $id) = @_;
-    $self->property($id, 'STATUS');
+    my ($self) = @_;
+    $self->property('STATUS');
 }
 
 sub failurereason {
-    my ($self, $id) = @_;
-    $self->property($id, 'FAILUREREASON');
+    my ($self) = @_;
+    $self->property('FAILUREREASON');
 }
 
 sub is_failed_unseen {
-    my ($self, $id) = @_;
-    my $res = $self->property($id, 'IS_FAILED_UNSEEN');
+    my ($self) = @_;
+    my $res = $self->property('IS_FAILED_UNSEEN');
     $res eq 'TRUE' ? 1 : 0;
 }
 
 sub timestamp {
-    my ($self, $id) = @_;
-    $self->property($id, 'TIMESTAMP');
+    my ($self) = @_;
+    $self->property('TIMESTAMP');
 }
 
 sub price {
-    my ($self, $id) = @_;
-    $self->property($id, 'PRICE');
+    my ($self) = @_;
+    $self->property('PRICE');
 }
 
 sub price_precision {
-    my ($self, $id) = @_;
-    $self->property($id, 'PRICE_PRECISION');
+    my ($self) = @_;
+    $self->property('PRICE_PRECISION');
 }
 
 sub price_currency {
-    my ($self, $id) = @_;
-    $self->property($id, 'PRICE_CURRENCY');
+    my ($self) = @_;
+    $self->property('PRICE_CURRENCY');
 }
 
 sub reply_to_number {
-    my ($self, $id) = @_;
-    $self->property($id, 'REPLY_TO_NUMBER');
+    my ($self) = @_;
+    $self->property('REPLY_TO_NUMBER');
 }
 
 sub target_numbers {
-    my ($self, $id) = @_;
-    $self->property($id, 'TARGET_NUMBERS');
+    my ($self) = @_;
+    $self->property('TARGET_NUMBERS');
 }
 
 sub target_statuses {
-    my ($self, $id) = @_;
-    $self->property($id, 'TARGET_STATUSES');
+    my ($self) = @_;
+    $self->property('TARGET_STATUSES');
 }
 
 1;
