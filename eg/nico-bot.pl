@@ -3,7 +3,11 @@ use warnings;
 use File::Spec;
 use File::Basename;
 use lib File::Spec->catdir(dirname(__FILE__), '..', 'lib');
-use Net::DBus::Reactor;
+{
+    package Net::DBus::Reactor;
+    use Coro::Select qw/select/;
+    use Net::DBus::Reactor;
+}
 use Net::DBus::Skype::Lite;
 use LWP::UserAgent;
 use XML::Simple;
@@ -37,3 +41,6 @@ $skype->message_received(sub {
 
 my $reactor = Net::DBus::Reactor->main();
 $reactor->run();
+local $SIG{INT} = sub {
+    $reactor->shutdown();
+};
