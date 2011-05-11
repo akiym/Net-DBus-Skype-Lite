@@ -2,7 +2,6 @@ package Net::DBus::Skype::Lite;
 use strict;
 use warnings;
 use Net::DBus::Skype::Lite::API;
-use Net::DBus::Skype::Lite::Command;
 use Net::DBus::Skype::Lite::Util qw/parse_notification object add_trigger/;
 
 {
